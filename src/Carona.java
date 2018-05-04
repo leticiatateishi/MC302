@@ -1,110 +1,99 @@
 import java.util.ArrayList;
 
-public class Carona {
+public abstract class Carona {
 
-    private ArrayList<CaronaCaroneiro> caroneiros;
+    protected ArrayList<CaronaCaroneiro> caroneiros;
     private CaronaCaronante caronante;
     private double latitudeEncontro;
     private double longitudeEncontro;
     private double latitudeDestino;
     private double longitudeDestino;
     private String horaDiaEncontro;
-    private int ocupacaoMaxima=3;
+    private int ocupacaoMaxima = 3;
     private float valor;
     private ArrayList<MetodoPagamento> formaPagAceitas;
 
 
-    public Carona(Caronante c){
+    public Carona(Caronante c) {
         caroneiros = new ArrayList<>();
         formaPagAceitas = new ArrayList<>();
         caronante = new CaronaCaronante(c, this);
     }
 
-    public Carona(Caronante caronante, double latitudeEncontro, double longitudeEncontro, double latitudeDestino,
-                  double longitudeDestino, String horaDiaEncontro, int ocupacaoMaxima){
-        this(caronante);
-        this.latitudeEncontro = latitudeEncontro;
-        this.longitudeEncontro = longitudeEncontro;
-        this.latitudeDestino = latitudeDestino;
-        this.longitudeDestino = longitudeDestino;
-        this.horaDiaEncontro = horaDiaEncontro;
-        this.ocupacaoMaxima = ocupacaoMaxima;
-    }
-
 
     /*  Imprime os dados da carona. */
 
-    public String toString(){
+    public String toString() {
         String out = "Dados da carona:\n";
-        out += "Latitude de encontro: " +getLatitudeEncontro()+ "\n";
-        out += "Longitude de encontro: " +getLongitudeEncontro()+ "\n";
-        out += "Latitude do destino: " +getLatitudeDestino()+ "\n";
-        out += "Longitude do destino: " +getLongitudeDestino()+ "\n";
-        out += "Hora e dia do encontro: " +getHoraDiaEncontro()+ "\n";
+        out += "Latitude de encontro: " + getLatitudeEncontro() + "\n";
+        out += "Longitude de encontro: " + getLongitudeEncontro() + "\n";
+        out += "Latitude do destino: " + getLatitudeDestino() + "\n";
+        out += "Longitude do destino: " + getLongitudeDestino() + "\n";
+        out += "Hora e dia do encontro: " + getHoraDiaEncontro() + "\n";
         return out;
     }
 
 
     /*  Metodos de acesso dos atributos. */
 
-    public final CaronaCaronante getCaronante(){
+    public final CaronaCaronante getCaronante() {
         return caronante;
     }
 
-    public double getLatitudeEncontro(){
+    public double getLatitudeEncontro() {
         return latitudeEncontro;
     }
 
-    public void setLatitudeEncontro(double latitude){
+    public void setLatitudeEncontro(double latitude) {
         latitudeEncontro = latitude;
     }
 
-    public double getLongitudeEncontro(){
+    public double getLongitudeEncontro() {
         return longitudeEncontro;
     }
 
-    public void setLongitudeEncontro(double longitude){
+    public void setLongitudeEncontro(double longitude) {
         longitudeEncontro = longitude;
     }
 
-    public double getLatitudeDestino(){
+    public double getLatitudeDestino() {
         return latitudeDestino;
     }
 
-    public void setLatitudeDestino(double latitude){
+    public void setLatitudeDestino(double latitude) {
         latitudeDestino = latitude;
     }
 
-    public double getLongitudeDestino(){
+    public double getLongitudeDestino() {
         return longitudeDestino;
     }
 
-    public void setLongitudeDestino(double longitude){
+    public void setLongitudeDestino(double longitude) {
         longitudeDestino = longitude;
     }
 
-    public String getHoraDiaEncontro(){
+    public String getHoraDiaEncontro() {
         return horaDiaEncontro;
     }
 
-    public void setHoraDiaEncontro(String horaDia){
+    public void setHoraDiaEncontro(String horaDia) {
         horaDiaEncontro = horaDia;
     }
 
-    public int getOcupacaoMaxima(){
+    public int getOcupacaoMaxima() {
         return ocupacaoMaxima;
     }
 
-    public void setOcupacaoMaxima(int ocupacao){
+    public void setOcupacaoMaxima(int ocupacao) {
         ocupacaoMaxima = ocupacao;
         caronante.getCaronante().setAssentosDisponiveis(ocupacao);
     }
 
-    public float getValor(){
+    public float getValor() {
         return valor;
     }
 
-    public void setValor(float v){
+    public void setValor(float v) {
         valor = v;
     }
 
@@ -112,44 +101,19 @@ public class Carona {
         this.caronante = caronante;
     }
 
-    /*  Verifica se ha assentos disponiveis e, se possivel, adiciona um caroneiro.  */
-
-    public boolean adicionarCaroneiro(Caroneiro caroneiro){
-        if (caroneiros.size() < ocupacaoMaxima){
-            CaronaCaroneiro caronaCaroneiro = new CaronaCaroneiro(caroneiro, this);
-            caroneiros.add(caronaCaroneiro);
-            caronante.getCaronante().setAssentosDisponiveis(caronante.getCaronante().getAssentosDisponiveis()-1);
-            caroneiro.adicionarCarona(caronaCaroneiro);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-
-    /*  Verifica se determinado caroneiro pertence a lista de caroneiros e, se possivel, o remove. */
-
-    public boolean removerCaroneiro(Caroneiro caroneiro) {
-        if (caroneiros.contains(caroneiro)){
-            caroneiros.remove(caroneiro);
-            return true;
-        }
-        return false;
-    }
 
 
     /*  Verifica se um metodo de pagamento ja pertence ao array list de formas de pagamento aceitas e, se possivel,
-        faz a adicao. Se o novo metodo de pagamento eh GRATIS, o atributo valor da carona eh zerado e todas as outras
-        formas de pagamento sao removidas do array list.  */
+    faz a adicao. Se o novo metodo de pagamento eh GRATIS, o atributo valor da carona eh zerado e todas as outras
+    formas de pagamento sao removidas do array list.  */
 
-    public boolean adicionarFormaPagamento(MetodoPagamento mp){
+    public boolean adicionarFormaPagamento(MetodoPagamento mp) {
         if (formaPagAceitas.contains(mp))
             return false;
         formaPagAceitas.add(mp);
-        if (this.caronaGratuita()){
+        if (this.caronaGratuita()) {
             setValor(0);
-            if (formaPagAceitas.size()>1) {
+            if (formaPagAceitas.size() > 1) {
                 formaPagAceitas.clear();
                 formaPagAceitas.add(mp);
             }
@@ -160,7 +124,7 @@ public class Carona {
 
     /*  Tenta remover determinada forma de pagamento. */
 
-    public boolean removerFormaPagamento(MetodoPagamento mp){
+    public boolean removerFormaPagamento(MetodoPagamento mp) {
         if (formaPagAceitas.contains(mp)) {
             formaPagAceitas.remove(mp);
             return true;
@@ -171,7 +135,7 @@ public class Carona {
 
     /*  Verifica se determinada forma de pagamento eh valida para essa carona. */
 
-    public boolean checarExistenciaFormaPagamento(MetodoPagamento mp){
+    public boolean checarExistenciaFormaPagamento(MetodoPagamento mp) {
         if (formaPagAceitas.contains(mp))
             return true;
         return false;
@@ -180,7 +144,7 @@ public class Carona {
 
     /*  Verifica se a carona eh gratis.  */
 
-    public boolean caronaGratuita(){
+    public boolean caronaGratuita() {
         if (formaPagAceitas.contains(MetodoPagamento.GRATIS))
             return true;
         return false;
@@ -189,7 +153,7 @@ public class Carona {
 
     /*  Indica a ocupacao atual da carona.  */
 
-    public int verificaOcupacao(){
+    public int verificaOcupacao() {
         return caroneiros.size();
     }
 
@@ -203,11 +167,11 @@ public class Carona {
     }
 
 
-    public boolean atribuirNotaCaroneiro(int idUsuario, float avaliacao){
-        for (CaronaCaroneiro caroneiro: caroneiros){
-            if (caroneiro.getCaroneiro().getPerfil().getUsuario().getId() == idUsuario){
+    public boolean atribuirNotaCaroneiro(int idUsuario, float avaliacao) {
+        for (CaronaCaroneiro caroneiro : caroneiros) {
+            if (caroneiro.getCaroneiro().getPerfil().getUsuario().getId() == idUsuario) {
                 caroneiro.setAvaliacao(avaliacao);
-                if (!caroneiro.getCaroneiro().atualizarAvaliacao(this, avaliacao)){
+                if (!caroneiro.getCaroneiro().atualizarAvaliacao(this, avaliacao)) {
                     return false;
                 }
                 return true;
@@ -219,20 +183,30 @@ public class Carona {
 
     public boolean atribuirNotaCaronante(float avaliacao) {
         caronante.setAvaliacao(avaliacao);
-        if (!caronante.getCaronante().atualizarAvaliacao(this, avaliacao)){
+        if (!caronante.getCaronante().atualizarAvaliacao(this, avaliacao)) {
             return false;
         }
         return true;
     }
 
-    public CaronaCaroneiro encontrarCaroneiro(Caroneiro caroneiro){
-        for (CaronaCaroneiro c: caroneiros){
-            if(c.getCaroneiro() == caroneiro){
+    public CaronaCaroneiro encontrarCaroneiro(Caroneiro caroneiro) {
+        for (CaronaCaroneiro c : caroneiros) {
+            if (c.getCaroneiro() == caroneiro) {
                 return c;
             }
         }
         return null;
     }
+
+    /*  Verifica se ha assentos disponiveis e, se possivel, adiciona um caroneiro.  */
+
+    public abstract boolean adicionarCaroneiro(Caroneiro caroneiro);
+
+
+    /*  Verifica se determinado caroneiro pertence a lista de caroneiros e, se possivel, o remove. */
+
+    public abstract boolean removerCaroneiro(Caroneiro caroneiro);
+
 }
 
 

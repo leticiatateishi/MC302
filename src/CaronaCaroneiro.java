@@ -4,7 +4,7 @@ public class CaronaCaroneiro {
     private Carona carona;
     private float avaliacao;
 
-    public CaronaCaroneiro(Caroneiro caroneiro, Carona carona){
+    public CaronaCaroneiro(Carona carona, Caroneiro caroneiro){
         this.caroneiro = caroneiro;
         this.carona = carona;
     }

@@ -37,14 +37,6 @@ public class Main {
         Usuario usuario2 = new Usuario("Rafael", "rafael@gmail.com", "AaBbCcDd", true, perfil2);           // id = 2
 
 
-        Perfil perfil3 = new Perfil('m', "03/01/1982", "Sao Paulo", "Sao Paulo", "8859-5652", true);
-        Usuario usuario3 = new Usuario("Lucas", "lucas@gmail.com", "03011982", true, perfil3);             // id = 3
-
-
-        Perfil perfil4 = new Perfil('f', "26/06/1995", "Sao Paulo", "Sao Paulo", "4829-6458", true);
-        Usuario usuario4 = new Usuario("Laura", "laura@gmail.com", "laura", true, perfil4);                // id = 4
-
-
         /*  Tornando o usuario1 caronante. */
 
         Caronante caronante = new Caronante(10, "rock", "ABC-1234", "00000000", "Honda", "Civic", 3);
@@ -54,27 +46,15 @@ public class Main {
 
         /*  Tornando os outros tres usuarios caroneiros. */
 
-        Caroneiro caroneiro1 = new Caroneiro("47298478279847");
-        perfil2.setCaroneiro(caroneiro1);
-        caroneiro1.setPerfil(perfil2);
-
-
-        Caroneiro caroneiro2 = new Caroneiro("54898441848944");
-        perfil3.setCaroneiro(caroneiro2);
-        caroneiro2.setPerfil(perfil3);
-
-
-        Caroneiro caroneiro3 = new Caroneiro("2654654515452");
-        perfil4.setCaroneiro(caroneiro3);
-        caroneiro3.setPerfil(perfil4);
+        Caroneiro caroneiro = new Caroneiro("47298478279847");
+        perfil2.setCaroneiro(caroneiro);
+        caroneiro.setPerfil(perfil2);
 
 
         /* Criando a carona. */
 
         Carona carona = caronante.oferecerCarona();
-        carona.adicionarCaroneiro(caroneiro1);
-        carona.adicionarCaroneiro(caroneiro2);
-        carona.adicionarCaroneiro(caroneiro3);
+        carona.adicionarCaroneiro(caroneiro);
         carona.setHoraDiaEncontro("17 de fevereiro de 2018, as 16h");
 
 
@@ -82,17 +62,12 @@ public class Main {
 
         System.out.println("Atribuicao da nota do caronante: " + carona.atribuirNotaCaronante(8.5f));
         System.out.println("Atribuicao da nota do caroneiro1: " + carona.atribuirNotaCaroneiro(2, 6.2f));
-        System.out.println("Atribuicao da nota do caroneiro2: " + carona.atribuirNotaCaroneiro(3, 9.5f));
-        System.out.println("Atribuicao da nota do caroneiro3: " + carona.atribuirNotaCaroneiro(4, 5.8f));
-        System.out.println("Atribuicao da nota de um usuario inexistente: " + carona.atribuirNotaCaroneiro(5, 5.8f));
 
 
         /*  Imprime os 4 usuarios criados. */
 
         System.out.println("\nUsuario 1:" + usuario1);
         System.out.println("\nUsuario 2:" + usuario2);
-        System.out.println("\nUsuario 3:" + usuario3);
-        System.out.println("\nUsuario 4:" + usuario4);
 
 
         /*  Imprime a carona e a nota que cada usuario atribuiu a ela. */
@@ -101,12 +76,8 @@ public class Main {
         System.out.println("Nota atribuida pelo caronante (id "
                 + carona.getCaronante().getCaronante().getPerfil().getUsuario().getId() + "): "
                 + carona.getCaronante().getAvaliacao() + "\n");
-        System.out.println("Nota atribuida pelo caroneiro1 (id " + caroneiro1.getPerfil().getUsuario().getId() + "): "
-                + carona.encontrarCaroneiro(caroneiro1).getAvaliacao());
-        System.out.println("Nota atribuida pelo caroneiro1 (id " + caroneiro2.getPerfil().getUsuario().getId() + "): "
-                + carona.encontrarCaroneiro(caroneiro2).getAvaliacao());
-        System.out.println("Nota atribuida pelo caroneiro1 (id " + caroneiro2.getPerfil().getUsuario().getId() + "): "
-                + carona.encontrarCaroneiro(caroneiro3).getAvaliacao());
+        System.out.println("Nota atribuida pelo caroneiro1 (id " + caroneiro.getPerfil().getUsuario().getId() + "): "
+                + carona.encontrarCaroneiro(caroneiro).getAvaliacao());
 
 
     }

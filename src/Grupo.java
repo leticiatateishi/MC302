@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class Grupo{
+public abstract class Grupo{
 
     private int id;
     private String nome;
     private String descricao;
-    private ArrayList<Usuario> membros;
+    protected ArrayList<GrupoUsuario> membros;
+    private Usuario dono;
     private static int geradorId=0;
-    private int testStatic = 1;
 
     public Grupo(){
         geradorId ++;
@@ -15,21 +15,17 @@ public class Grupo{
         membros = new ArrayList<>();
     }
 
-    public Grupo(String n, String d){
+    public Grupo(String n, String d, Usuario u){
         this();
         nome = n;
         descricao = d;
+        dono = u;
     }
 
     public String toString(){
         String out = "Dados do grupo " +getId()+ ":\n";
         out += "Nome: " +getNome()+ "\n";
         out += "Descricao: " +getDescricao()+ "\n";
-        out += "Nome e identificacao dos usuarios que participam do grupo: ";
-        for (Usuario i: membros){
-            out += i.getNome() + "(" + i.getId() + ")\n";
-        }
-        out += "\n";
         return out;
     }
 
@@ -57,15 +53,18 @@ public class Grupo{
         this.descricao = descricao;
     }
 
-    public void adicionarMembro(Usuario usuario){
-        membros.add(usuario);
+    public Usuario getDono(){
+        return dono;
     }
 
-    public static int getGeradorId(){
-        return geradorId;
+    // VERIFICAR SE O NOVO DONO PERTENCE AO GRUPO?
+    public void alterarDono(Usuario dono, Usuario donoNovo){
+        if (getDono() == dono){
+            this.dono = donoNovo;
+        }
     }
 
-    public int getTestStatic(){
-        return testStatic;
-    }
+    public abstract void adicionarMembro(Usuario usuario);
+
+    public abstract void removerMembro(Usuario usuario);
 }

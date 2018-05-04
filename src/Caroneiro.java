@@ -48,13 +48,23 @@ public class Caroneiro {
         pagamentoEmDinheiro = pagamento;
     }
 
-    public Perfil getPerfil() { return perfil; }
+    public Perfil getPerfil(){
+        return perfil;
+    }
 
-    public void setPerfil (Perfil p) { perfil = p; }
+    public void setPerfil(Perfil p) { perfil = p; }
 
 
-    public void adicionarCarona(CaronaCaroneiro c){
-        caronas.add(c);
+    public boolean adicionarCarona(CaronaCaroneiro c){
+        return caronas.add(c);
+    }
+
+    public void removerCarona(CaronaCaroneiro c){
+        for(CaronaCaroneiro i: caronas){
+            if(i == c){
+                caronas.remove(i);
+            }
+        }
     }
 
 
@@ -66,6 +76,13 @@ public class Caroneiro {
             }
         }
         return false;
+    }
+
+    public boolean pedirCarona(Carona carona){
+        if (carona instanceof CaronaPublica){
+            return carona.adicionarCaroneiro(this);
+        }
+        
     }
 
 

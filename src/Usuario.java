@@ -7,7 +7,7 @@ public class Usuario {
 	private String email;
 	private String senha;
 	private boolean status;
-	private ArrayList<Grupo> grupos;
+	private ArrayList<GrupoUsuario> grupos;
     private Perfil perfil;
     private static int geradorId=0;
 
@@ -85,13 +85,60 @@ public class Usuario {
         }
     }
 
-    public static int getGeradorId(){
-	    return geradorId;
+	public void adicionarGrupo (Grupo grupo){
+		grupo.adicionarMembro(this);
+		grupos.add(new GrupoUsuario(grupo, this));
     }
 
-	public void adicionarGrupo (Grupo grupo){
-	    grupos.add(grupo);
-	    grupo.adicionarMembro(this);
+    public boolean removerGrupo(Grupo grupo){
+        for (GrupoUsuario i: grupos){
+            if (i.getGrupo() == grupo){
+                i.getGrupo().removerMembro(this);
+                grupos.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public boolean removerGrupo(int idGrupo){
+        for (GrupoUsuario i: grupos){
+            if (i.getGrupo().getId() == idGrupo){
+                i.getGrupo().removerMembro(this);
+                grupos.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void atualizarGrupo(Usuario dono, int idGrupo, String nome, String descricao){
+        for (GrupoUsuario i: grupos){
+            if(i.getGrupo().getId() == idGrupo && this == dono){
+                i.getGrupo().setNome(nome);
+                i.getGrupo().setDescricao(descricao);
+            }
+        }
+    }
+
+
+    public void atualizarGrupo(Usuario dono, int idGrupo, String descricao){
+        for (GrupoUsuario i: grupos){
+            if(i.getGrupo().getId() == idGrupo && this == dono){
+                i.getGrupo().setDescricao(descricao);
+            }
+        }
+    }
+
+    public boolean pertenceAoGrupo(Grupo grupo){
+	    for(GrupoUsuario i: grupos){
+	        if(i.getGrupo() == grupo){
+	            return true;
+            }
+        }
+        return false;
     }
 	
 }
