@@ -4,32 +4,32 @@ public class CaronaCaronante {
     private Carona carona;
     private float avaliacao;
 
-    public CaronaCaronante(Caronante caronante, Carona carona){
+    public CaronaCaronante(Caronante caronante, Carona carona) {
         this.caronante = caronante;
         this.carona = carona;
     }
 
-    public Caronante getCaronante(){
+    public Caronante getCaronante() {
         return caronante;
     }
 
-    public void setCaronante(Caronante c){
+    public void setCaronante(Caronante c) {
         caronante = c;
     }
 
-    public Carona getCarona(){
+    public Carona getCarona() {
         return carona;
     }
 
-    public void setCarona(Carona c){
+    public void setCarona(Carona c) {
         carona = c;
     }
 
-    public float getAvaliacao(){
+    public float getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(float a){
+    public void setAvaliacao(float a) {
         avaliacao = a;
     }
 }

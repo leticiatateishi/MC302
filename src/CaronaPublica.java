@@ -2,38 +2,50 @@ import java.util.ArrayList;
 
 public class CaronaPublica extends Carona {
 
-    private ArrayList<GrupoPublico> grupos;
+    private ArrayList<GrupoPublico> grupos = new ArrayList<>();
 
 
-    /*  Construtores semelhantes a classe Carona.  */
+    /*  Construtor semelhantes a classe Carona.  */
 
-    public CaronaPublica(Caronante caronante){
+    public CaronaPublica(Caronante caronante) {
         super(caronante);
     }
 
 
-    /*  Verifica se um determinado grupo ja pertence a array list de grupos e, se possivel, o adiciona.  */
+    /*  Verifica se um determinado grupo já pertence ao array list de grupos e, se possível, o adiciona.  */
 
-    public boolean adicionarGrupo(GrupoPublico grupo){
+    public boolean adicionarGrupo(GrupoPublico grupo) {
         if (grupos.contains(grupo))
             return false;
         grupos.add(grupo);
         return true;
     }
 
-    public boolean adicionarCaroneiro(Caroneiro caroneiro){
-        if(caroneiros.size() >= getOcupacaoMaxima()){
+
+    /*  Verifica se há espaço para adição de um novo caroneiro e, se houver, verifica se o caroneiro participa de
+     *   algum grupo publico desta carona antes de inseri-lo. */
+
+    public boolean adicionarCaroneiro(Caroneiro caroneiro) {
+        if (caroneiros.size() >= getOcupacaoMaxima())
             return false;
+        for (GrupoPublico i : grupos) {
+            System.out.println(i.getNome());
+            if (caroneiro.getPerfil().getUsuario().pertenceAoGrupo(i)) {
+                CaronaCaroneiro caronaCaroneiro = new CaronaCaroneiro(this, caroneiro);
+                caroneiro.adicionarCarona(caronaCaroneiro);
+                caroneiros.add(caronaCaroneiro);
+                return true;
+            }
         }
-        CaronaCaroneiro caronaCaroneiro = new CaronaCaroneiro(this, caroneiro);
-        caroneiro.adicionarCarona(caronaCaroneiro);
-        caroneiros.add(caronaCaroneiro);
-        return true;
+        return false;
     }
 
-    public boolean removerCaroneiro(Caroneiro caroneiro){
-        for (CaronaCaroneiro i: caroneiros){
-            if (i.getCaroneiro() == caroneiro){
+
+    /*  Verifica se determinado caroneiro participa desta carona e o remove. */
+
+    public boolean removerCaroneiro(Caroneiro caroneiro) {
+        for (CaronaCaroneiro i : caroneiros) {
+            if (i.getCaroneiro() == caroneiro) {
                 caroneiros.remove(i);
                 caroneiro.removerCarona(i);
                 return true;
@@ -41,4 +53,5 @@ public class CaronaPublica extends Carona {
         }
         return false;
     }
+
 }

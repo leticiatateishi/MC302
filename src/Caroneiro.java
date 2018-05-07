@@ -8,82 +8,93 @@ public class Caroneiro {
     private ArrayList<CaronaCaroneiro> caronas;
 
 
-    public Caroneiro(){
+    public Caroneiro() {
         caronas = new ArrayList<>();
     }
 
 
-    public Caroneiro (String cartao){
+    public Caroneiro(String cartao) {
         this();
         cartaoDeCredito = cartao;
         pagamentoEmDinheiro = false;
     }
 
 
-    public Caroneiro (boolean pagamento){
+    public Caroneiro(boolean pagamento) {
         this();
         pagamentoEmDinheiro = pagamento;
     }
 
 
-    public String toString(){
-        String out = "Cartao de credito: " +getCartaoDeCredito()+ "\n";
-        out += "Pagamento em dinheiro: " +getPagamentoEmDinheiro()+ "\n\n";
-        return out;
-    }
+    /*  Adiciona uma carona ao arraylist de caronas. */
 
-    public String getCartaoDeCredito() {
-        return cartaoDeCredito;
-    }
-
-    public void setCartaoDeCredito (String cartao) {
-        cartaoDeCredito = cartao;
-    }
-
-    public boolean getPagamentoEmDinheiro(){
-        return pagamentoEmDinheiro;
-    }
-
-    public void setPagamentoEmDinheiro (boolean pagamento){
-        pagamentoEmDinheiro = pagamento;
-    }
-
-    public Perfil getPerfil(){
-        return perfil;
-    }
-
-    public void setPerfil(Perfil p) { perfil = p; }
-
-
-    public boolean adicionarCarona(CaronaCaroneiro c){
+    public boolean adicionarCarona(CaronaCaroneiro c) {
         return caronas.add(c);
     }
 
-    public void removerCarona(CaronaCaroneiro c){
-        for(CaronaCaroneiro i: caronas){
-            if(i == c){
+
+    /*  Verifica se o caroneiro participa de determinada carona e o remove. */
+
+    public void removerCarona(CaronaCaroneiro c) {
+        for (CaronaCaroneiro i : caronas) {
+            if (i == c) {
                 caronas.remove(i);
             }
         }
     }
 
 
-    public boolean atualizarAvaliacao(Carona carona, float avaliacao){
-        for (CaronaCaroneiro c: caronas){
-            if (c.getCarona() == carona){
-                c.setAvaliacao(avaliacao);
-                return true;
+    /*  Tenta adicionar o caroneiro a determinada carona. */
+
+    public boolean pedirCarona(Carona carona) {
+        return carona.adicionarCaroneiro(this);
+    }
+
+
+    /*  Retorna a avaliação do caroneiro em determinada carona. */
+
+    public float getAvalicao(Carona carona) {
+        for (CaronaCaroneiro i : caronas) {
+            if (i.getCarona() == carona) {
+                return i.getAvaliacao();
             }
         }
-        return false;
-    }
-
-    public boolean pedirCarona(Carona carona){
-        if (carona instanceof CaronaPublica){
-            return carona.adicionarCaroneiro(this);
-        }
-        
+        return 0.0f;
     }
 
 
+    /*  Imprime os dados do caroneiro. */
+
+    public String toString() {
+        String out = "Cartao de credito: " + getCartaoDeCredito() + "\n";
+        out += "Pagamento em dinheiro: " + getPagamentoEmDinheiro() + "\n\n";
+        return out;
+    }
+
+
+    /*  Métodos de acesso dos atributos. */
+
+    public String getCartaoDeCredito() {
+        return cartaoDeCredito;
+    }
+
+    public void setCartaoDeCredito(String cartao) {
+        cartaoDeCredito = cartao;
+    }
+
+    public boolean getPagamentoEmDinheiro() {
+        return pagamentoEmDinheiro;
+    }
+
+    public void setPagamentoEmDinheiro(boolean pagamento) {
+        pagamentoEmDinheiro = pagamento;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil p) {
+        perfil = p;
+    }
 }

@@ -21,6 +21,109 @@ public abstract class Carona {
     }
 
 
+    /*  Verifica se um metodo de pagamento ja pertence ao array list de formas de pagamento aceitas e, se possivel,
+    faz a adicao. Se o novo metodo de pagamento eh GRATIS, o atributo valor da carona é zerado e todas as outras
+    formas de pagamento sao removidas do array list.  */
+
+    public boolean adicionarFormaPagamento(MetodoPagamento mp) {
+        if (formaPagAceitas.contains(mp))
+            return false;
+        formaPagAceitas.add(mp);
+        if (this.caronaGratuita()) {
+            setValor(0);
+            if (formaPagAceitas.size() > 1) {
+                formaPagAceitas.clear();
+                formaPagAceitas.add(mp);
+            }
+        }
+        return true;
+    }
+
+
+    /*  Tenta remover determinada forma de pagamento. */
+
+    public boolean removerFormaPagamento(MetodoPagamento mp) {
+        if (formaPagAceitas.contains(mp)) {
+            formaPagAceitas.remove(mp);
+            return true;
+        }
+        return false;
+    }
+
+
+    /*  Verifica se determinada forma de pagamento é valida para essa carona. */
+
+    public boolean checarExistenciaFormaPagamento(MetodoPagamento mp) {
+        if (formaPagAceitas.contains(mp))
+            return true;
+        return false;
+    }
+
+
+    /*  Verifica se a carona é gratis.  */
+
+    public boolean caronaGratuita() {
+        return formaPagAceitas.contains(MetodoPagamento.GRATIS);
+    }
+
+
+    /*  Indica a ocupacao atual da carona.  */
+
+    public int verificaOcupacao() {
+        return caroneiros.size();
+    }
+
+
+    /*  Verifica se a carona esta vazia.  */
+
+    public boolean caronaVazia() {
+        return caroneiros.isEmpty();
+    }
+
+
+    /*  Procura o caroneiro no arraylist de caroneiro e atribui uma avaliação para este caroneiro nesta carona. */
+
+    public boolean atribuirNotaCaroneiro(int idUsuario, float avaliacao) {
+        for (CaronaCaroneiro c : caroneiros) {
+            if (c.getCaroneiro().getPerfil().getUsuario().getId() == idUsuario) {
+                c.setAvaliacao(avaliacao);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /*  Atribui nota para o caronante nesta carona. */
+
+    public boolean atribuirNotaCaronante(float avaliacao) {
+        caronante.setAvaliacao(avaliacao);
+        return true;
+    }
+
+
+    /*  Procura um caroneiro no arraylist de caroneiros. */
+
+    public CaronaCaroneiro encontrarCaroneiro(Caroneiro caroneiro) {
+        for (CaronaCaroneiro c : caroneiros) {
+            if (c.getCaroneiro() == caroneiro) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+
+    /*  Verifica se ha assentos disponiveis e, se possivel, adiciona um caroneiro.  */
+
+    public abstract boolean adicionarCaroneiro(Caroneiro caroneiro);
+
+
+    /*  Verifica se determinado caroneiro pertence a lista de caroneiros e, se possivel, o remove. */
+
+    public abstract boolean removerCaroneiro(Caroneiro caroneiro);
+
+
     /*  Imprime os dados da carona. */
 
     public String toString() {
@@ -102,111 +205,14 @@ public abstract class Carona {
     }
 
 
-
-    /*  Verifica se um metodo de pagamento ja pertence ao array list de formas de pagamento aceitas e, se possivel,
-    faz a adicao. Se o novo metodo de pagamento eh GRATIS, o atributo valor da carona eh zerado e todas as outras
-    formas de pagamento sao removidas do array list.  */
-
-    public boolean adicionarFormaPagamento(MetodoPagamento mp) {
-        if (formaPagAceitas.contains(mp))
-            return false;
-        formaPagAceitas.add(mp);
-        if (this.caronaGratuita()) {
-            setValor(0);
-            if (formaPagAceitas.size() > 1) {
-                formaPagAceitas.clear();
-                formaPagAceitas.add(mp);
-            }
-        }
-        return true;
-    }
-
-
-    /*  Tenta remover determinada forma de pagamento. */
-
-    public boolean removerFormaPagamento(MetodoPagamento mp) {
-        if (formaPagAceitas.contains(mp)) {
-            formaPagAceitas.remove(mp);
-            return true;
-        }
-        return false;
-    }
-
-
-    /*  Verifica se determinada forma de pagamento eh valida para essa carona. */
-
-    public boolean checarExistenciaFormaPagamento(MetodoPagamento mp) {
-        if (formaPagAceitas.contains(mp))
-            return true;
-        return false;
-    }
-
-
-    /*  Verifica se a carona eh gratis.  */
-
-    public boolean caronaGratuita() {
-        if (formaPagAceitas.contains(MetodoPagamento.GRATIS))
-            return true;
-        return false;
-    }
-
-
-    /*  Indica a ocupacao atual da carona.  */
-
-    public int verificaOcupacao() {
-        return caroneiros.size();
-    }
-
-
-    /*  Verifica se a carona esta vazia.  */
-    public boolean caronaVazia() {
-        if (caroneiros.isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-
-
-    public boolean atribuirNotaCaroneiro(int idUsuario, float avaliacao) {
-        for (CaronaCaroneiro caroneiro : caroneiros) {
-            if (caroneiro.getCaroneiro().getPerfil().getUsuario().getId() == idUsuario) {
-                caroneiro.setAvaliacao(avaliacao);
-                if (!caroneiro.getCaroneiro().atualizarAvaliacao(this, avaliacao)) {
-                    return false;
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    public boolean atribuirNotaCaronante(float avaliacao) {
-        caronante.setAvaliacao(avaliacao);
-        if (!caronante.getCaronante().atualizarAvaliacao(this, avaliacao)) {
-            return false;
-        }
-        return true;
-    }
-
-    public CaronaCaroneiro encontrarCaroneiro(Caroneiro caroneiro) {
-        for (CaronaCaroneiro c : caroneiros) {
-            if (c.getCaroneiro() == caroneiro) {
-                return c;
+    public Caroneiro getCaroneiro(int id) {
+        for (CaronaCaroneiro i : caroneiros) {
+            if (i.getCaroneiro().getPerfil().getUsuario().getId() == id) {
+                return i.getCaroneiro();
             }
         }
         return null;
     }
-
-    /*  Verifica se ha assentos disponiveis e, se possivel, adiciona um caroneiro.  */
-
-    public abstract boolean adicionarCaroneiro(Caroneiro caroneiro);
-
-
-    /*  Verifica se determinado caroneiro pertence a lista de caroneiros e, se possivel, o remove. */
-
-    public abstract boolean removerCaroneiro(Caroneiro caroneiro);
-
 }
 
 

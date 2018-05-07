@@ -5,33 +5,33 @@ public class GrupoUsuario {
     private Usuario usuario;
     private static int geradorId = 0;
 
-    public GrupoUsuario(Grupo grupo, Usuario usuario){
-        geradorId ++;
+    public GrupoUsuario(Grupo grupo, Usuario usuario) {
+        geradorId++;
         this.grupo = grupo;
         this.usuario = usuario;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Grupo getGrupo(){
+    public Grupo getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(Grupo grupo){
+    public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
     }
 
-    public Usuario getUsuario(){
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario){
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 }

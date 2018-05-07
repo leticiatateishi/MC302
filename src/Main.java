@@ -1,85 +1,126 @@
-/*  A vantagem de relacionamentos bidirecionais envolve a possibilidade de se poder acessar informacoes da classe com
-    a qual esta relacionada. Assim, a classe Carona e a classe CaronaCaroneiro podem ser acessadas uma a partir da
-    outra. Uma desvantagem deste relacionamento eh o cuidado ao lidar com alteracoes relacionadas ao atributo da outra
-    classe, para evitar recursividade ou esquecimento de se atualizar o outro lado do relacionamento.
 
-    Como uma carona so pode possuir um caronante (apesar de um caronante poder participar de varias caronas), a criacao
-    da classe associativa CaronaCaronante pode nao ser muito vantajosa. Uma alternativa que ainda armazena o
-    relacionamento mas sem a necessidade de criar uma classe associativa eh o armazenamento das caronas dadas por certo
-    caronante em um array list dentro da classe Caronante e mantendo o atributo "avaliacao" como um atributo da classe
-    carona (como avaliacaoCaronante), uma vez que ha apenas um caronante e havera apenas uma avaliacao do caronante
-    para esta carona. Entretanto, essa alternativa nao seria vantajosa se possuissemos muitos atributos como avaliacao
-    para armazenar em Carona. A vantagem seria a maior facilididade de se alterar o atributo avaliacao (apenas com
-    carona.setAvalaiacaoCaronante(avaliacao)), sem a necessidade de se atualizar objetos da classe CaronaCaronante em
-    Carona e em Caronante. A desvantagem envolve o armazenamento em uma classe especifica de dados relacionados a carona
-    e ao caronante, que deveriam ser acessiveis em ambas as classes.
+/*  Não é possível criar um método que transforme um objeto da classe GrupoPublico para classe GrupoPrivado, pois
+    não podemos transformar um objeto de uma subclasse a um objeto de outra subclasse. Só podemos transformar objetos
+    de subclasses em objetos da classe mãe (Grupo), através do upcasting.
 
-    Eh possivel que haja problemas com relacionamentos. Por exemplo, devemos nos assegurar de que sempre criamos uma
-    carona atraves do metodo oferecerCarona de caronante. Nao podemos instanciar um objeto do tipo caronante e depois
-    fazer "Carona c = new Carona(caronante)", pois desta maneira nao sera criado um objeto CaronaCaronante que sera
-    adicionado ao arraylist de caronas do caronante. Assim, embora o atributo caronante da classe Carona vai estar
-    associado a um caronante, este mesmo caronante nao estara associado a essa carona, uma vez que ela nao pertence ao
-    seu arraylist de caronas.
+    Podemos criar um objeto da classe Grupo, instanciado como GrupoPublico e chamarmos o método testeDinamico (da
+    classe GrupoPublico), entretanto é necessário fazer o upcasting para GrupoPúblico. Não podemos instanciar um
+    objeto da classe Grupo, mas se pudéssemos (se a classe não fosse abstrata), não poderíamos chamar o método
+    testeDinamico, a não ser que fizéssemos o downcasting.
+
+    Não podemos acessar o método testeDinamico com um objeto de GrupoPrivado, pois ambas as classes GrupoPublico e
+    GrupoPrivado possuem a mesma classe mãe Grupo (ambas são subclasses), portanto uma não possui acesso aos atributos
+    e métodos exclusivos da outra. Não há alternativa para fazermos isso, pois não podemos transformar um objeto de
+    uma subclasse em um objeto de outra subclasse.
+
+    Uma vantagem de tornar Grupo e Carona abstratos é que tornamos impossível a instanciação dessas classes, uma vez
+    que desejamos que existam apenas grupos/caronas privados ou públicos. Outra vantagem é que podemos escrever os
+    métodos abstratos de Grupo e Carona em suas subclasses,tornando-os compatíveis às subclasses.
+
+    Não é possível sobrescrever ou sobrecarregar métodos em relacionamentos que não sejam herança, pois, em outros
+    relacionamentos, uma classe não herda os métodos da outra e, portanto, não podemos sobrescrevê-los ou sobrecar-
+    regá-los.
 */
 
 
 public class Main {
 
-	public static void main (String[] args) {
+    public static void main(String[] args) {
 
         /* Criando quatro usuarios */
 
         Perfil perfil1 = new Perfil('f', "28/09/1990", "Sao Paulo", "Sao Paulo", "2723-5782", false);
         Usuario usuario1 = new Usuario("Leticia", "leticia@gmail.com", "a1b2c3d4", true, perfil1);         // id = 1
 
-
         Perfil perfil2 = new Perfil('m', "22/03/1990", "Sao Paulo", "Sao Paulo", "5829-9294", false);
         Usuario usuario2 = new Usuario("Rafael", "rafael@gmail.com", "AaBbCcDd", true, perfil2);           // id = 2
 
+        Perfil perfil3 = new Perfil('f', "07/09/1995", "Campinas", "Sao Paulo", "3821-9384", false);
+        Usuario usuario3 = new Usuario("Isabela", "isabela@gmail.com", "isabela", true, perfil3);          // id = 3
 
-        /*  Tornando o usuario1 caronante. */
-
-        Caronante caronante = new Caronante(10, "rock", "ABC-1234", "00000000", "Honda", "Civic", 3);
-        caronante.setPerfil(perfil1);
-        perfil1.setCaronante(caronante);
+        Perfil perfil4 = new Perfil('m', "14/03/1993", "Campinas", "Sao Paulo", "4822-5879", false);
+        Usuario usuario4 = new Usuario("Fernando", "fernando@gmail.com", "1403", true, perfil3);           // id = 4
 
 
-        /*  Tornando os outros tres usuarios caroneiros. */
+        /*  Criando um grupo público e um grupo privado através de estrutura polimórfica. */
+
+        Grupo grupo1, grupo2;
+        grupo1 = new GrupoPrivado("Unicamp", "Caronas para alunos e funcionarios da Unicamp", usuario3);
+        grupo1.adicionarMembro(usuario4);
+        grupo2 = new GrupoPublico("Campinas-SP", "Caronas entre Campinas e São Paulo", usuario1);
+        grupo2.adicionarMembro(usuario2);
+
+
+        /*  Tornando os usuarios 1 e 3 caronantes para podermos criar duas caronas. */
+
+        Caronante caronante1 = new Caronante(10, "rock", "ABC-1234", "00000000", "Honda", "Civic", 3);
+        caronante1.setPerfil(perfil1);
+        perfil1.setCaronante(caronante1);
+
+        Caronante caronante2 = new Caronante(10, "mpb", "HMN-1424", "11111111", "Volkswagen", "Fusca", 3);
+        caronante2.setPerfil(perfil3);
+        perfil3.setCaronante(caronante2);
+
+
+        /*  Criando uma carona publica e uma carona privada através de estrutura polimórfica e adicionando o grupo
+         *   privado à carona privada e o grupo público à carona pública. */
+
+        Carona carona1, carona2;
+        carona1 = new CaronaPrivada(caronante1);
+        ((CaronaPrivada) carona1).adicionarGrupo((GrupoPrivado) grupo1);
+        carona2 = new CaronaPublica(caronante2);
+        ((CaronaPublica) carona2).adicionarGrupo((GrupoPublico) grupo2);
+
+
+        /*  Tornando o usuário 2 caroneiro. */
 
         Caroneiro caroneiro = new Caroneiro("47298478279847");
         perfil2.setCaroneiro(caroneiro);
         caroneiro.setPerfil(perfil2);
 
 
-        /* Criando a carona. */
+        /*  Fazemos com que um caronante ofereça uma carona (que será pública), adicionamos o grupo público a essa
+         *  carona e fazemos com que o caroneiro peça a carona. O pedido de carona deve retornar true pois o caroneiro
+         *  está no grupo público associado à carona oferecida. */
 
-        Carona carona = caronante.oferecerCarona();
-        carona.adicionarCaroneiro(caroneiro);
-        carona.setHoraDiaEncontro("17 de fevereiro de 2018, as 16h");
-
-
-        /*  Atribuindo notas ao caronante e aos caroneiros. */
-
-        System.out.println("Atribuicao da nota do caronante: " + carona.atribuirNotaCaronante(8.5f));
-        System.out.println("Atribuicao da nota do caroneiro1: " + carona.atribuirNotaCaroneiro(2, 6.2f));
+        Carona carona = caronante1.oferecerCarona();
+        ((CaronaPublica) carona).adicionarGrupo((GrupoPublico) grupo2);
+        System.out.println("\nAdicionando caroneiro à carona: " + caroneiro.pedirCarona(carona) + "\n");
 
 
-        /*  Imprime os 4 usuarios criados. */
+        /*  Gerando notas para a carona criada. */
 
-        System.out.println("\nUsuario 1:" + usuario1);
-        System.out.println("\nUsuario 2:" + usuario2);
+        carona.atribuirNotaCaronante(8.6f);
+        carona.atribuirNotaCaroneiro(2, 9.2f);
 
 
-        /*  Imprime a carona e a nota que cada usuario atribuiu a ela. */
+        /*  Imprimindo as notas atribuídas. */
 
-        System.out.println(carona);
-        System.out.println("Nota atribuida pelo caronante (id "
-                + carona.getCaronante().getCaronante().getPerfil().getUsuario().getId() + "): "
-                + carona.getCaronante().getAvaliacao() + "\n");
-        System.out.println("Nota atribuida pelo caroneiro1 (id " + caroneiro.getPerfil().getUsuario().getId() + "): "
-                + carona.encontrarCaroneiro(caroneiro).getAvaliacao());
+        System.out.println("Nota atribuida ao caronante: " + carona.getCaronante().getCaronante().getAvalicao(carona));
+        System.out.println("Nota atribuida ao caroneiro: " + carona.getCaroneiro(2).getAvalicao(carona) + "\n");
 
+
+        /*  Imprimimos os dois grupos criados. */
+
+        System.out.println("Imprimindo grupo privado\n" + grupo1 + "\n");
+        System.out.println("Imprimindo grupo público\n" + grupo2 + "\n");
+
+
+        /*  Imprimindo os quatro usuários criados. */
+
+        System.out.println(usuario1);
+        System.out.println(usuario2);
+        System.out.println(usuario3);
+        System.out.println(usuario4);
+
+
+        /*  Teste para responder as questões 2 e 3. */
+
+        Grupo a = new GrupoPublico("Grupo teste", "Teste", usuario1);
+        System.out.println("Teste dinâmico: " + ((GrupoPublico) a).testeDinamico());
+
+        Grupo b = new GrupoPrivado("Grupo teste", "Teste", usuario1);
+//        System.out.println("Teste dinâmico: " +b.testeDinamico());
 
     }
-
 }
