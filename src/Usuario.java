@@ -25,10 +25,20 @@ public class Usuario {
     }
 
 
-    /*  Adiciona o usuário a determinado grupo (público ou privado). */
+    /*  Adiciona o usuário a um grupo público. */
 
-    public void adicionarGrupo(Grupo grupo) {
+    public void adicionarGrupo(GrupoPublico grupo) {
         grupos.add(new GrupoUsuario(grupo, this));
+    }
+
+
+    public boolean adicionarUsuarioAUmGrupo(Usuario usuario, GrupoPrivado grupo){
+        if(grupo.checarPresencaUsuario(this)) return false;
+        if (grupo.getDono() == this){
+            grupo.adicionarMembro(usuario);
+            return true;
+        }
+        return false;
     }
 
 
@@ -36,7 +46,7 @@ public class Usuario {
 
     public boolean removerGrupo(Grupo grupo) {
         for (GrupoUsuario i : grupos) {
-            if (i.getGrupo() == grupo) {
+            if (i.getGrupo() == grupo && i.getGrupo().getDono() != this) {
                 i.getGrupo().removerMembro(this);
                 grupos.remove(i);
                 return true;
@@ -103,6 +113,24 @@ public class Usuario {
             }
         }
         return null;
+    }
+
+
+    /*  Cria um grupo público no qual este usuário é o dono. */
+
+    public GrupoPublico criarGrupoPublico(String nome, String descricao){
+        GrupoPublico grupo = new GrupoPublico(nome, descricao, this);
+        grupos.add(new GrupoUsuario(grupo, this));
+        return grupo;
+    }
+
+
+    /*  Cria um grupo privado no qual este usuário é o dono. */
+
+    public GrupoPrivado criarGrupoPrivado(String nome, String descricao){
+        GrupoPrivado grupo = new GrupoPrivado(nome, descricao, this);
+        grupos.add(new GrupoUsuario(grupo, this));
+        return grupo;
     }
 
 

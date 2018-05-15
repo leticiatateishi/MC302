@@ -9,7 +9,6 @@ public class GrupoPrivado extends Grupo {
 
     public void adicionarMembro(Usuario usuario) {
         membros.add(new GrupoUsuario(this, usuario));
-        usuario.adicionarGrupo(this);
     }
 
 

@@ -6,7 +6,8 @@ public class Perfil {
     private String estado;
     private String telefone;
     private boolean fumante;
-    private float avaliacao;
+    private float somaAvaliacoes=0;
+    private int quantidadeAvaliacoes=0;
     private Caroneiro caroneiro;
     private Caronante caronante;
     private Usuario usuario;
@@ -19,7 +20,6 @@ public class Perfil {
         this.estado = estado;
         this.telefone = telefone;
         this.fumante = fumante;
-        avaliacao = 0;
     }
 
 
@@ -88,10 +88,13 @@ public class Perfil {
     }
 
     public float getAvaliacao() {
-        return avaliacao;
+        if (quantidadeAvaliacoes == 0) return 0;
+        return somaAvaliacoes/quantidadeAvaliacoes;
     }
 
-    public void setAvaliacao() {
+    public void setAvaliacao(float avaliacao) {
+        quantidadeAvaliacoes++;
+        somaAvaliacoes += avaliacao;
     }
 
     public Caroneiro getCaroneiro() {

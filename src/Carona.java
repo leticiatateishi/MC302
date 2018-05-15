@@ -81,12 +81,14 @@ public abstract class Carona {
     }
 
 
-    /*  Procura o caroneiro no arraylist de caroneiro e atribui uma avaliação para este caroneiro nesta carona. */
+    /*  Procura o caroneiro no arraylist de caroneiro e atribui uma avaliação para este caroneiro nesta carona.
+     *  Depois, adiciona a avaliação à média de avaliações do caroneiro. */
 
     public boolean atribuirNotaCaroneiro(int idUsuario, float avaliacao) {
         for (CaronaCaroneiro c : caroneiros) {
             if (c.getCaroneiro().getPerfil().getUsuario().getId() == idUsuario) {
                 c.setAvaliacao(avaliacao);
+                c.getCaroneiro().getPerfil().setAvaliacao(avaliacao);
                 return true;
             }
         }
@@ -94,10 +96,13 @@ public abstract class Carona {
     }
 
 
-    /*  Atribui nota para o caronante nesta carona. */
+    /*  Atribui nota para o caronante nesta carona. Depois, adiciona essa avaliação à média de avaliações do
+     *  caronante.  */
 
     public boolean atribuirNotaCaronante(float avaliacao) {
+        if (caronante == null) return false;
         caronante.setAvaliacao(avaliacao);
+        caronante.getCaronante().getPerfil().setAvaliacao(avaliacao);
         return true;
     }
 

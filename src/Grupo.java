@@ -21,7 +21,6 @@ public abstract class Grupo {
         descricao = d;
         dono = u;
         membros.add(new GrupoUsuario(this, u));
-        u.adicionarGrupo(this);
     }
 
 
@@ -31,6 +30,15 @@ public abstract class Grupo {
         if (getDono() == dono) {
             this.dono = donoNovo;
         }
+    }
+
+
+    /*  Verifica se determinado usuário está no grupo. */
+
+    public boolean checarPresencaUsuario(Usuario usuario){
+        for (GrupoUsuario i: membros)
+            if(i.getUsuario() == usuario) return true;
+        return false;
     }
 
 
