@@ -1,4 +1,8 @@
-public class Perfil implements Comparable<Perfil> {
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Perfil implements Comparable<Perfil>, Salvavel {
 
     private char sexo;
     private String dataNascimento;
@@ -23,16 +27,29 @@ public class Perfil implements Comparable<Perfil> {
     }
 
 
+    @Override
+    public void salvarParaArquivo(){
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter("Usuarios.txt", true));
+            out.write("" + this);
+            out.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
     /*  Imprime os dados do perfil. */
 
     public String toString() {
-        String out = "Sexo: " + getSexo() + "\n";
+        String out = "** Dados do perfil " +this.getUsuario().getId() + "**\n";
+        out += "Sexo: " + getSexo() + "\n";
         out += "Data de nascimento: " + getDataNascimento() + "\n";
         out += "Cidade: " + getCidade() + "\n";
         out += "Estado: " + getEstado() + "\n";
         out += "Telefone: " + getTelefone() + "\n";
         out += "Fumante: " + getFumante() + "\n";
-        out += "Avaliacao: " + getAvaliacao() + "\n";
+        out += "Avaliacao: " + getAvaliacao() + "\n\n";
         return out;
     }
 

@@ -1,6 +1,9 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class Caronante {
+public class Caronante implements Salvavel {
 
     private int tempoHabilitacao;
     private String generoMusicalFavorito;
@@ -28,38 +31,40 @@ public class Caronante {
     }
 
 
-    /*  Através de estrutura polimórfica, cria uma carona privada se o grupo for privado ou uma carona pública se o
-     *   grupo for público. */
+    @Override
+    public void salvarParaArquivo() {
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter("Usuarios.txt", true));
+            out.write("" + this);
+            out.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
-    public CaronaPublica oferecerCaronaPublica () {
+
+    /*  Cria uma carona pública. */
+
+    public CaronaPublica oferecerCaronaPublica() {
         CaronaPublica carona = new CaronaPublica(this);
         caronas.add(carona.getCaronante());
         return carona;
     }
 
 
-    public CaronaPrivada oferecerCaronaPrivada () {
+    /*  Cria uma carona privada. */
+
+    public CaronaPrivada oferecerCaronaPrivada() {
         CaronaPrivada carona = new CaronaPrivada(this);
         caronas.add(carona.getCaronante());
         return carona;
-    }
-
-    /*  Retorna a avaliação do caronante para determinada carona. */
-
-    public float getAvalicao(Carona carona) {
-        for (CaronaCaronante c : caronas) {
-            if (c.getCarona() == carona) {
-                return c.getAvaliacao();
-            }
-        }
-        return 0.0f;
     }
 
 
     /*  Imprime os dados do caronante. */
 
     public String toString() {
-        String out = "Dados do caronante:\n";
+        String out = "** Dados do caronante " + this.getPerfil().getUsuario().getId() + "**\n";
         out += "Tempo de habilitacao: " + getTempoHabilitacao() + " anos\n";
         out += "Genero musical favorito: " + getGeneroMusicalFavorito() + "\n";
         out += "Placa do veiculo: " + getPlacaVeiculo() + "\n";

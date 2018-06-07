@@ -4,32 +4,36 @@ public class CaronaCaroneiro {
     private Carona carona;
     private float avaliacao;
 
-    public CaronaCaroneiro(Carona carona, Caroneiro caroneiro){
+
+    public CaronaCaroneiro(Carona carona, Caroneiro caroneiro) {
         this.caroneiro = caroneiro;
         this.carona = carona;
     }
 
-    public Caroneiro getCaroneiro(){
+
+    /*  Métodos de acesso dos atributos. */
+
+    public Caroneiro getCaroneiro() {
         return caroneiro;
     }
 
-    public void setCaroneiro(Caroneiro c){
+    public void setCaroneiro(Caroneiro c) {
         caroneiro = c;
     }
 
-    public Carona getCarona(){
+    public Carona getCarona() {
         return carona;
     }
 
-    public void setCarona(Carona c){
+    public void setCarona(Carona c) {
         carona = c;
     }
 
-    public float getAvaliacao(){
+    public float getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(float a){
+    public void setAvaliacao(float a) {
         avaliacao = a;
     }
 }

@@ -1,4 +1,8 @@
-public class GrupoUsuario {
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class GrupoUsuario implements Salvavel{
 
     private int id;
     private Grupo grupo;
@@ -9,6 +13,25 @@ public class GrupoUsuario {
         geradorId++;
         this.grupo = grupo;
         this.usuario = usuario;
+    }
+
+    @Override
+    public void salvarParaArquivo() {
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter("Grupos.txt", true));
+            out.write("" + this + "\n\n");
+            out.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    public String toString(){
+        String out = "** Dados do GrupoUsuario " +getId() + "**\n";
+        out += "Grupo: " + getGrupo().getNome() + " (" +getGrupo().getId()+ ")\n";
+        out += "Usuario: " + getUsuario().getNome() + " (" +getUsuario().getId()+ ")\n";
+        return out;
     }
 
     public int getId() {

@@ -1,7 +1,27 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class GrupoPublico extends Grupo {
+
+    private ArrayList<CaronaPublica> caronas;
 
     public GrupoPublico(String n, String d, Usuario u) {
         super(n, d, u);
+        caronas = new ArrayList<>();
+    }
+
+
+    @Override
+    public void salvarParaArquivo() {
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter("Grupos.txt", true));
+            out.write("" + this + "\n\n");
+            out.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 
@@ -20,6 +40,11 @@ public class GrupoPublico extends Grupo {
                 membros.remove(i);
             }
         }
+    }
+
+
+    public void adicionarCarona(CaronaPublica carona){
+        caronas.add(carona);
     }
 
 }

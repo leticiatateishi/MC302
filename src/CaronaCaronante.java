@@ -4,10 +4,14 @@ public class CaronaCaronante {
     private Carona carona;
     private float avaliacao;
 
+
     public CaronaCaronante(Caronante caronante, Carona carona) {
         this.caronante = caronante;
         this.carona = carona;
     }
+
+
+    /*  Métodos de acesso dos atributos. */
 
     public Caronante getCaronante() {
         return caronante;

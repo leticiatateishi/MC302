@@ -18,6 +18,7 @@ public class CaronaPublica extends Carona {
         if (grupos.contains(grupo) || !grupo.checarPresencaUsuario(getCaronante().getCaronante().getPerfil().getUsuario()))
             return false;
         grupos.add(grupo);
+        grupo.adicionarCarona(this);
         return true;
     }
 
@@ -26,16 +27,18 @@ public class CaronaPublica extends Carona {
      *   algum grupo publico desta carona antes de inseri-lo. */
 
     public boolean adicionarCaroneiro(Caroneiro caroneiro) {
+
         if (caroneiros.size() >= getOcupacaoMaxima())
             return false;
-        if (grupos.size() == 0){
+
+        if (grupos.size() == 0) {
             CaronaCaroneiro caronaCaroneiro = new CaronaCaroneiro(this, caroneiro);
             caroneiro.adicionarCarona(caronaCaroneiro);
             caroneiros.add(caronaCaroneiro);
             return true;
         }
+
         for (GrupoPublico i : grupos) {
-            System.out.println(i.getNome());
             if (i.checarPresencaUsuario(caroneiro.getPerfil().getUsuario())) {
                 CaronaCaroneiro caronaCaroneiro = new CaronaCaroneiro(this, caroneiro);
                 caroneiro.adicionarCarona(caronaCaroneiro);

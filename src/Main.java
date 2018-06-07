@@ -165,12 +165,7 @@ public class Main {
          */
 
         CaronaPrivada caronaPrivada = caronante2.oferecerCaronaPrivada();
-        try {
-            caronaPrivada.adicionarGrupo(ec017);
-        }
-        catch(UsuarioNaoPertenceAoGrupoPrivado i){
-            System.out.println(i.getMessage());
-        }
+        caronaPrivada.adicionarGrupo(ec017);
 
 
         /*  O usuario4 cria uma carona privada e tenta adicionar o grupo privado EC017 na carona. O programa deve
@@ -179,17 +174,12 @@ public class Main {
          */
 
         CaronaPrivada caronaPrivada2 = caronante4.oferecerCaronaPrivada();
-        try {
-            caronaPrivada2.adicionarGrupo(ec017);
-        }
-        catch(UsuarioNaoPertenceAoGrupoPrivado i){
-            System.out.println(i.getMessage());
-        }
+        caronaPrivada2.adicionarGrupo(ec017);
 
 
         System.out.println("\nInserção do usuário0 na carona: " +caroneiro0.pedirCarona(caronaPrivada));
         System.out.println("Inserção do usuário1 na carona: " +caroneiro1.pedirCarona(caronaPrivada));
-        System.out.println("Inserção do usuário3 na carona: " +caroneiro3.pedirCarona(caronaPrivada));
+        System.out.println("Inserção do usuário3 na carona: " +caroneiro3.pedirCarona(caronaPrivada) + "\n");
 
 
         ArrayList<Perfil> perfis = new ArrayList<>();
@@ -211,7 +201,7 @@ public class Main {
 
         /*  Imprimimos os dois grupos criados. */
 
-        System.out.println("Imprimindo grupo público\n" + gpu + "\n");
+        System.out.println("\nImprimindo grupo público\n" + gpu + "\n");
         System.out.println("Imprimindo grupo privado\n" + ec017 + "\n");
 
 
@@ -222,6 +212,18 @@ public class Main {
 
 
         System.out.println(perfis);
+
+
+        for (Usuario usuario: usuarios){
+            usuario.salvarParaArquivo();
+            usuario.getPerfil().salvarParaArquivo();
+            usuario.getPerfil().getCaronante().salvarParaArquivo();
+            usuario.getPerfil().getCaroneiro().salvarParaArquivo();
+        }
+
+        gpu.salvarParaArquivo();
+        ec017.salvarParaArquivo();
+
 
     }
 }

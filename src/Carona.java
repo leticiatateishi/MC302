@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public abstract class Carona {
 
     protected ArrayList<CaronaCaroneiro> caroneiros;
-    private CaronaCaronante caronante;
+    private final CaronaCaronante caronante;
     private double latitudeEncontro;
     private double longitudeEncontro;
     private double latitudeDestino;
@@ -21,98 +21,99 @@ public abstract class Carona {
     }
 
 
-    /*  Verifica se um metodo de pagamento ja pertence ao array list de formas de pagamento aceitas e, se possivel,
-    faz a adicao. Se o novo metodo de pagamento eh GRATIS, o atributo valor da carona é zerado e todas as outras
-    formas de pagamento sao removidas do array list.  */
+    /*  Verifica se um metodo de pagamento já pertence ao array list de formas de pagamento aceitas e, se possível,
+     *  faz a adição. Se o novo metodo de pagamento é GRATIS, o atributo valor da carona é zerado e todas as outras
+     *  formas de pagamento são removidas do array list. */
 
     public boolean adicionarFormaPagamento(MetodoPagamento mp) {
+
         if (formaPagAceitas.contains(mp))
             return false;
-        formaPagAceitas.add(mp);
-        if (this.caronaGratuita()) {
+
+        if (mp == MetodoPagamento.GRATIS) {
             setValor(0);
-            if (formaPagAceitas.size() > 1) {
+            if (formaPagAceitas.size() >= 1)
                 formaPagAceitas.clear();
-                formaPagAceitas.add(mp);
-            }
         }
+
+        formaPagAceitas.add(mp);
         return true;
     }
 
 
-    /*  Tenta remover determinada forma de pagamento. */
+    /*  Tenta remover determinada forma de pagamento. /
 
     public boolean removerFormaPagamento(MetodoPagamento mp) {
-        if (formaPagAceitas.contains(mp)) {
-            formaPagAceitas.remove(mp);
-            return true;
-        }
-        return false;
+        return formaPagAceitas.remove(mp);
     }
 
 
     /*  Verifica se determinada forma de pagamento é valida para essa carona. */
 
     public boolean checarExistenciaFormaPagamento(MetodoPagamento mp) {
-        if (formaPagAceitas.contains(mp))
-            return true;
-        return false;
+        return formaPagAceitas.contains(mp);
     }
 
 
-    /*  Verifica se a carona é gratis.  */
+    /*  Verifica se a carona é gratuita. */
 
     public boolean caronaGratuita() {
         return formaPagAceitas.contains(MetodoPagamento.GRATIS);
     }
 
 
-    /*  Indica a ocupacao atual da carona.  */
+    /*  Indica a ocupação atual da carona. */
 
     public int verificaOcupacao() {
         return caroneiros.size();
     }
 
 
-    /*  Verifica se a carona esta vazia.  */
+    /*  Verifica se a carona está vazia (se não possui caroneiros). */
 
     public boolean caronaVazia() {
         return caroneiros.isEmpty();
     }
 
 
-    /*  Procura o caroneiro no arraylist de caroneiro e atribui uma avaliação para este caroneiro nesta carona.
-     *  Depois, adiciona a avaliação à média de avaliações do caroneiro. */
+    /*  Um usuário com id passado por parâmetro atribui uma nota a esta carona. Essa nota é utilizada para calcular
+     *  a avaliação dos outros participantes da carona (do caronante e dos outros caroneiros, se existirem). */
 
     public boolean atribuirNotaCaroneiro(int idUsuario, float avaliacao) {
+
         for (CaronaCaroneiro c : caroneiros) {
-            if (c.getCaroneiro().getPerfil().getUsuario().getId() != idUsuario) {
-//                c.setAvaliacao(avaliacao);
+            if (c.getCaroneiro().getPerfil().getUsuario().getId() != idUsuario)
                 c.getCaroneiro().getPerfil().setAvaliacao(avaliacao);
-            }
+            else
+                c.setAvaliacao(avaliacao);
             caronante.getCaronante().getPerfil().setAvaliacao(avaliacao);
         }
+
         return true;
     }
 
 
-    /*  Atribui nota para o caronante nesta carona. Depois, adiciona essa avaliação à média de avaliações do
-     *  caronante.  */
+    /*  O caronante atribui uma nota a essa carona. Essa nota é utilizada para calcular a avaliação dos caroneiros
+     *  participantes da carona. */
 
     public boolean atribuirNotaCaronante(float avaliacao) {
+
         if (caronante == null) return false;
-        for (CaronaCaroneiro c: caroneiros)
+
+        for (CaronaCaroneiro c : caroneiros)
             c.getCaroneiro().getPerfil().setAvaliacao(avaliacao);
+
+        getCaronante().setAvaliacao(avaliacao);
         return true;
     }
 
 
-    /*  Verifica se ha assentos disponiveis e, se possivel, adiciona um caroneiro.  */
+    /*  Verifica se há assentos disponiveis e, se possível, adiciona um caroneiro.  */
 
     public abstract boolean adicionarCaroneiro(Caroneiro caroneiro);
 
 
-    /*  Verifica se determinado caroneiro pertence a lista de caroneiros e, se possivel, o remove. */
+    /*  Verifica se determinado caroneiro pertence à lista de caroneiros e, se possível, o remove. */
 
     public abstract boolean removerCaroneiro(Caroneiro caroneiro);
 
@@ -191,10 +192,6 @@ public abstract class Carona {
 
     public void setValor(float v) {
         valor = v;
-    }
-
-    public void setCaronante(CaronaCaronante caronante) {
-        this.caronante = caronante;
     }
 
 }

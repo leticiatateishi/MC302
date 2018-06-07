@@ -1,14 +1,32 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class GrupoPrivado extends Grupo {
+
+    private ArrayList<CaronaPrivada> caronas;
 
     public GrupoPrivado(String n, String d, Usuario u) {
         super(n, d, u);
+        caronas = new ArrayList<>();
     }
 
+    @Override
+    public void salvarParaArquivo() {
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter("Grupos.txt", true));
+            out.write("" + this + "\n\n");
+            out.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     /*  Adiciona um novo membro ao grupo. */
 
-    public void adicionarMembro(Usuario usuario) {
-        membros.add(new GrupoUsuario(this, usuario));
+    public void adicionarMembro(GrupoUsuario usuario) {
+        membros.add(usuario);
     }
 
 
@@ -20,5 +38,10 @@ public class GrupoPrivado extends Grupo {
                 membros.remove(i);
             }
         }
+    }
+
+
+    public void adicionarCarona(CaronaPrivada carona){
+        caronas.add(carona);
     }
 }

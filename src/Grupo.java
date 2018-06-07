@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public abstract class Grupo {
+public abstract class Grupo implements Salvavel{
 
     private int id;
     private String nome;
@@ -44,7 +44,7 @@ public abstract class Grupo {
 
     /*  Adiciona um novo membro ao grupo. */
 
-    public abstract void adicionarMembro(Usuario usuario);
+    public abstract void adicionarMembro(GrupoUsuario usuario);
 
 
     /*  Verifica se determinado usuário participa do grupo e o remove. */
@@ -55,13 +55,13 @@ public abstract class Grupo {
     /*  Imprime os dados do grupo. */
 
     public String toString() {
-        String out = "Dados do grupo " + getId() + ":\n";
-        out += "\t*Nome: " + getNome() + "\n";
-        out += "\t*Descricao: " + getDescricao() + "\n";
-        out += "\t*Nome do dono: " + getDono().getNome() + "\n";
-        out += "\t*Membros do grupo:\n";
+        String out = "** Dados do grupo " + getId() + "**\n";
+        out += "Nome: " + getNome() + "\n";
+        out += "Descricao: " + getDescricao() + "\n";
+        out += "Nome do dono: " + getDono().getNome() + "\n";
+        out += "Membros do grupo:\n";
         for (GrupoUsuario i : membros) {
-            out += "\t\t" + i.getUsuario().getNome() + "\n";
+            out += "\t" + i.getUsuario().getNome() + "\n";
         }
         return out;
     }

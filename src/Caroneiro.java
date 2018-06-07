@@ -1,6 +1,9 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class Caroneiro {
+public class Caroneiro implements Salvavel{
 
     private String cartaoDeCredito;
     private boolean pagamentoEmDinheiro;
@@ -23,6 +26,18 @@ public class Caroneiro {
     public Caroneiro(boolean pagamento) {
         this();
         pagamentoEmDinheiro = pagamento;
+    }
+
+
+    @Override
+    public void salvarParaArquivo(){
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter("Usuarios.txt", true));
+            out.write("" + this + "\n***********************************\n\n\n");
+            out.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 
@@ -66,7 +81,8 @@ public class Caroneiro {
     /*  Imprime os dados do caroneiro. */
 
     public String toString() {
-        String out = "Cartao de credito: " + getCartaoDeCredito() + "\n";
+        String out = "** Dados do caroneiro " +this.getPerfil().getUsuario().getId() + "**\n";
+        out += "Cartao de credito: " + getCartaoDeCredito() + "\n";
         out += "Pagamento em dinheiro: " + getPagamentoEmDinheiro() + "\n\n";
         return out;
     }

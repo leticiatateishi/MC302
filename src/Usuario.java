@@ -1,6 +1,7 @@
+import java.io.*;
 import java.util.ArrayList;
 
-public class Usuario {
+public class Usuario implements Salvavel {
 
     private int id;
     private String nome;
@@ -25,6 +26,39 @@ public class Usuario {
     }
 
 
+    @Override
+    public void salvarParaArquivo() {
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter("Usuarios.txt", true));
+            out.write("" + this);
+            out.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+//        try{
+//            BufferedReader in = new BufferedReader(new FileReader("Usuarios.txt"));
+//            System.out.println(in.readLine());
+//        }catch (IOException ex){
+//            ex.printStackTrace();
+//        }
+//        try{
+//            DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("Usuarios.txt")));
+//            try {
+//                DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream("Usuarios.txt")));
+//                out.writeInt(23);
+//                System.out.println("int = " + in.readInt());
+//                out.flush();
+//            }
+//            catch (IOException ex){
+//                ex.printStackTrace();
+//            }
+//        }
+//        catch (IOException exception){
+//            exception.printStackTrace();
+//        }
+    }
+
+
     /*  Adiciona o usuário a um grupo público. */
 
     public void adicionarGrupo(GrupoPublico grupo) {
@@ -34,14 +68,14 @@ public class Usuario {
     }
 
 
-    public void adicionarGrupoPrivado(GrupoUsuario grupoUsuario){
+    public void adicionarGrupoPrivado(GrupoUsuario grupoUsuario) {
         grupos.add(grupoUsuario);
     }
 
 
-    public boolean adicionarUsuarioAUmGrupo(Usuario usuario, GrupoPrivado grupo) throws InsercaoEmGrupoPrivado{
-        if(grupo.checarPresencaUsuario(usuario)) return false;
-        if (grupo.getDono() == this){
+    public boolean adicionarUsuarioAUmGrupo(Usuario usuario, GrupoPrivado grupo) throws InsercaoEmGrupoPrivado {
+        if (grupo.checarPresencaUsuario(usuario)) return false;
+        if (grupo.getDono() == this) {
             GrupoUsuario grupoUsuario = new GrupoUsuario(grupo, usuario);
             grupo.adicionarMembro(grupoUsuario);
             usuario.adicionarGrupoPrivado(grupoUsuario);
@@ -67,7 +101,7 @@ public class Usuario {
 
     /*  Verifica se o usuário pertence a determinado grupo e o remove. */
 
-    public boolean removerGrupo(int idGrupo) throws UsuarioNaoPertenceAoGrupo{
+    public boolean removerGrupo(int idGrupo) throws UsuarioNaoPertenceAoGrupo {
         for (GrupoUsuario i : grupos) {
             if (i.getGrupo().getId() == idGrupo && !(i.getGrupo().getDono() == this)) {
                 i.getGrupo().removerMembro(this);
@@ -117,7 +151,7 @@ public class Usuario {
 
     /*  Cria um grupo público no qual este usuário é o dono. */
 
-    public GrupoPublico criarGrupoPublico(String nome, String descricao){
+    public GrupoPublico criarGrupoPublico(String nome, String descricao) {
         GrupoPublico grupo = new GrupoPublico(nome, descricao, this);
         grupos.add(new GrupoUsuario(grupo, this));
         return grupo;
@@ -126,7 +160,7 @@ public class Usuario {
 
     /*  Cria um grupo privado no qual este usuário é o dono. */
 
-    public GrupoPrivado criarGrupoPrivado(String nome, String descricao){
+    public GrupoPrivado criarGrupoPrivado(String nome, String descricao) {
         GrupoPrivado grupo = new GrupoPrivado(nome, descricao, this);
         grupos.add(new GrupoUsuario(grupo, this));
         return grupo;
@@ -136,7 +170,8 @@ public class Usuario {
     /*  Imprime os dados do usuário. */
 
     public String toString() {
-        String out = "Nome: " + getNome() + " (" + getId() + ")\n";
+        String out = "** Dados do usuário " +id + "**\n";
+        out += "Nome: " + getNome() + " (" + getId() + ")\n";
         out += "Email: " + getEmail() + "\n";
         out += "Senha: " + getSenha() + "\n";
         out += "Status: " + getStatus() + "\n";

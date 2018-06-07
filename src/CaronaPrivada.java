@@ -1,26 +1,27 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class CaronaPrivada extends Carona {
 
     private ArrayList<GrupoPrivado> grupos = new ArrayList<>();
 
 
-    /*  Construtor semelhantes a classe Carona.  */
-
     public CaronaPrivada(Caronante caronante) {
         super(caronante);
     }
 
 
-    /*  Verifica se um determinado grupo já pertence ao arraylist de grupos e, se possível, o adiciona.  */
+    /*  Verifica se o caronante da carona pertence ao grupo e, se possível, adiciona um grupo privado ao arraylist
+     *  de grupos desta carona. */
 
-    public boolean adicionarGrupo(GrupoPrivado grupo) throws UsuarioNaoPertenceAoGrupoPrivado{
+    public boolean adicionarGrupo(GrupoPrivado grupo){
+
         if (grupo.checarPresencaUsuario(getCaronante().getCaronante().getPerfil().getUsuario())) {
             grupos.add(grupo);
+            grupo.adicionarCarona(this);
             return true;
         }
-        throw new UsuarioNaoPertenceAoGrupoPrivado();
+
+        return false;
     }
 
 
