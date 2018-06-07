@@ -13,8 +13,8 @@ public class Usuario {
 
 
     public Usuario(String nome, String email, String senha, boolean status, Perfil perfil) {
-        geradorId++;
         id = geradorId;
+        geradorId++;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -28,23 +28,32 @@ public class Usuario {
     /*  Adiciona o usuário a um grupo público. */
 
     public void adicionarGrupo(GrupoPublico grupo) {
-        grupos.add(new GrupoUsuario(grupo, this));
+        GrupoUsuario gu = new GrupoUsuario(grupo, this);
+        grupos.add(gu);
+        grupo.adicionarMembro(gu);
     }
 
 
-    public boolean adicionarUsuarioAUmGrupo(Usuario usuario, GrupoPrivado grupo){
-        if(grupo.checarPresencaUsuario(this)) return false;
+    public void adicionarGrupoPrivado(GrupoUsuario grupoUsuario){
+        grupos.add(grupoUsuario);
+    }
+
+
+    public boolean adicionarUsuarioAUmGrupo(Usuario usuario, GrupoPrivado grupo) throws InsercaoEmGrupoPrivado{
+        if(grupo.checarPresencaUsuario(usuario)) return false;
         if (grupo.getDono() == this){
-            grupo.adicionarMembro(usuario);
+            GrupoUsuario grupoUsuario = new GrupoUsuario(grupo, usuario);
+            grupo.adicionarMembro(grupoUsuario);
+            usuario.adicionarGrupoPrivado(grupoUsuario);
             return true;
         }
-        return false;
+        throw new InsercaoEmGrupoPrivado();
     }
 
 
     /*  Verifica se o usuário pertence a determinado grupo e o remove. */
 
-    public boolean removerGrupo(Grupo grupo) {
+    public boolean removerGrupo(Grupo grupo) throws UsuarioNaoPertenceAoGrupo {
         for (GrupoUsuario i : grupos) {
             if (i.getGrupo() == grupo && i.getGrupo().getDono() != this) {
                 i.getGrupo().removerMembro(this);
@@ -52,21 +61,21 @@ public class Usuario {
                 return true;
             }
         }
-        return false;
+        throw new UsuarioNaoPertenceAoGrupo();
     }
 
 
     /*  Verifica se o usuário pertence a determinado grupo e o remove. */
 
-    public boolean removerGrupo(int idGrupo) {
+    public boolean removerGrupo(int idGrupo) throws UsuarioNaoPertenceAoGrupo{
         for (GrupoUsuario i : grupos) {
-            if (i.getGrupo().getId() == idGrupo) {
+            if (i.getGrupo().getId() == idGrupo && !(i.getGrupo().getDono() == this)) {
                 i.getGrupo().removerMembro(this);
                 grupos.remove(i);
                 return true;
             }
         }
-        return false;
+        throw new UsuarioNaoPertenceAoGrupo();
     }
 
 
@@ -92,16 +101,6 @@ public class Usuario {
         }
     }
 
-
-    /*  Retorna se o usuário pertence a determinado grupo (público ou privado). */
-
-    public boolean pertenceAoGrupo(Grupo grupo) {
-        for (GrupoUsuario i : grupos) {
-            if (i.getGrupo().getId() == grupo.getId())
-                return true;
-        }
-        return false;
-    }
 
 
     /*  Retorna um grupo do qual o usuário faz parte. */

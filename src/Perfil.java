@@ -1,4 +1,4 @@
-public class Perfil {
+public class Perfil implements Comparable<Perfil> {
 
     private char sexo;
     private String dataNascimento;
@@ -34,6 +34,13 @@ public class Perfil {
         out += "Fumante: " + getFumante() + "\n";
         out += "Avaliacao: " + getAvaliacao() + "\n";
         return out;
+    }
+
+
+    public int compareTo(Perfil perfil){
+        if (this.getAvaliacao() > perfil.getAvaliacao()) return 1;
+        if (this.getAvaliacao() == perfil.getAvaliacao()) return 0;
+        else return -1;
     }
 
 

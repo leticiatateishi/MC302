@@ -15,7 +15,7 @@ public class CaronaPublica extends Carona {
     /*  Verifica se um determinado grupo já pertence ao array list de grupos e, se possível, o adiciona.  */
 
     public boolean adicionarGrupo(GrupoPublico grupo) {
-        if (grupos.contains(grupo))
+        if (grupos.contains(grupo) || !grupo.checarPresencaUsuario(getCaronante().getCaronante().getPerfil().getUsuario()))
             return false;
         grupos.add(grupo);
         return true;
@@ -28,9 +28,15 @@ public class CaronaPublica extends Carona {
     public boolean adicionarCaroneiro(Caroneiro caroneiro) {
         if (caroneiros.size() >= getOcupacaoMaxima())
             return false;
+        if (grupos.size() == 0){
+            CaronaCaroneiro caronaCaroneiro = new CaronaCaroneiro(this, caroneiro);
+            caroneiro.adicionarCarona(caronaCaroneiro);
+            caroneiros.add(caronaCaroneiro);
+            return true;
+        }
         for (GrupoPublico i : grupos) {
             System.out.println(i.getNome());
-            if (caroneiro.getPerfil().getUsuario().pertenceAoGrupo(i)) {
+            if (i.checarPresencaUsuario(caroneiro.getPerfil().getUsuario())) {
                 CaronaCaroneiro caronaCaroneiro = new CaronaCaroneiro(this, caroneiro);
                 caroneiro.adicionarCarona(caronaCaroneiro);
                 caroneiros.add(caronaCaroneiro);

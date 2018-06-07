@@ -7,9 +7,8 @@ public class GrupoPublico extends Grupo {
 
     /*  Adiciona um novo membro ao grupo. */
 
-    public void adicionarMembro(Usuario usuario) {
-        membros.add(new GrupoUsuario(this, usuario));
-        usuario.adicionarGrupo(this);
+    public void adicionarMembro(GrupoUsuario usuario) {
+        membros.add(usuario);
     }
 
 
@@ -23,10 +22,4 @@ public class GrupoPublico extends Grupo {
         }
     }
 
-
-    /*  Método criado para responder a questão 2. */
-
-    public boolean testeDinamico() {
-        return true;
-    }
 }

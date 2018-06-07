@@ -86,13 +86,13 @@ public abstract class Carona {
 
     public boolean atribuirNotaCaroneiro(int idUsuario, float avaliacao) {
         for (CaronaCaroneiro c : caroneiros) {
-            if (c.getCaroneiro().getPerfil().getUsuario().getId() == idUsuario) {
-                c.setAvaliacao(avaliacao);
+            if (c.getCaroneiro().getPerfil().getUsuario().getId() != idUsuario) {
+//                c.setAvaliacao(avaliacao);
                 c.getCaroneiro().getPerfil().setAvaliacao(avaliacao);
-                return true;
             }
+            caronante.getCaronante().getPerfil().setAvaliacao(avaliacao);
         }
-        return false;
+        return true;
     }
 
 
@@ -101,21 +101,9 @@ public abstract class Carona {
 
     public boolean atribuirNotaCaronante(float avaliacao) {
         if (caronante == null) return false;
-        caronante.setAvaliacao(avaliacao);
-        caronante.getCaronante().getPerfil().setAvaliacao(avaliacao);
+        for (CaronaCaroneiro c: caroneiros)
+            c.getCaroneiro().getPerfil().setAvaliacao(avaliacao);
         return true;
-    }
-
-
-    /*  Procura um caroneiro no arraylist de caroneiros. */
-
-    public CaronaCaroneiro encontrarCaroneiro(Caroneiro caroneiro) {
-        for (CaronaCaroneiro c : caroneiros) {
-            if (c.getCaroneiro() == caroneiro) {
-                return c;
-            }
-        }
-        return null;
     }
 
 
@@ -209,15 +197,6 @@ public abstract class Carona {
         this.caronante = caronante;
     }
 
-
-    public Caroneiro getCaroneiro(int id) {
-        for (CaronaCaroneiro i : caroneiros) {
-            if (i.getCaroneiro().getPerfil().getUsuario().getId() == id) {
-                return i.getCaroneiro();
-            }
-        }
-        return null;
-    }
 }
 
 

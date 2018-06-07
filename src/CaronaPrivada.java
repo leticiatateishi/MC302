@@ -15,11 +15,12 @@ public class CaronaPrivada extends Carona {
 
     /*  Verifica se um determinado grupo já pertence ao arraylist de grupos e, se possível, o adiciona.  */
 
-    public boolean adicionarGrupo(GrupoPrivado grupo) {
-        if (grupos.contains(grupo))
-            return false;
-        grupos.add(grupo);
-        return true;
+    public boolean adicionarGrupo(GrupoPrivado grupo) throws UsuarioNaoPertenceAoGrupoPrivado{
+        if (grupo.checarPresencaUsuario(getCaronante().getCaronante().getPerfil().getUsuario())) {
+            grupos.add(grupo);
+            return true;
+        }
+        throw new UsuarioNaoPertenceAoGrupoPrivado();
     }
 
 
@@ -27,17 +28,20 @@ public class CaronaPrivada extends Carona {
     *   algum grupo privado desta carona antes de inseri-lo. */
 
     public boolean adicionarCaroneiro(Caroneiro caroneiro) {
+
         if (caroneiros.size() >= getOcupacaoMaxima()) {
             return false;
         }
+
         for (GrupoPrivado i : grupos) {
-            if (caroneiro.getPerfil().getUsuario().pertenceAoGrupo(i)) {
+            if (i.checarPresencaUsuario(caroneiro.getPerfil().getUsuario())) {
                 CaronaCaroneiro caronaCaroneiro = new CaronaCaroneiro(this, caroneiro);
                 caroneiro.adicionarCarona(caronaCaroneiro);
                 caroneiros.add(caronaCaroneiro);
                 return true;
             }
         }
+
         return false;
     }
 

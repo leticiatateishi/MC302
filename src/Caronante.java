@@ -19,10 +19,8 @@ public class Caronante {
     }
 
 
-    public Caronante(int tempo, String musica, String placa, String carta, String marca, String modelo, int assentos) {
+    public Caronante(String placa, String carta, String marca, String modelo, int assentos) {
         this(carta);
-        tempoHabilitacao = tempo;
-        generoMusicalFavorito = musica;
         placaVeiculo = placa;
         marcaVeiculo = marca;
         modeloVeiculo = modelo;
@@ -33,16 +31,18 @@ public class Caronante {
     /*  Através de estrutura polimórfica, cria uma carona privada se o grupo for privado ou uma carona pública se o
      *   grupo for público. */
 
-    public Carona oferecerCarona() {
-        Carona carona;
-        if (getPerfil().getUsuario().getGrupo(0) instanceof GrupoPrivado)
-            carona = new CaronaPrivada(this);
-        else
-            carona = new CaronaPublica(this);
+    public CaronaPublica oferecerCaronaPublica () {
+        CaronaPublica carona = new CaronaPublica(this);
         caronas.add(carona.getCaronante());
         return carona;
     }
 
+
+    public CaronaPrivada oferecerCaronaPrivada () {
+        CaronaPrivada carona = new CaronaPrivada(this);
+        caronas.add(carona.getCaronante());
+        return carona;
+    }
 
     /*  Retorna a avaliação do caronante para determinada carona. */
 
