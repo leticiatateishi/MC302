@@ -1,9 +1,14 @@
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileWriter;
+import java.io.FileOutputStream;
 
-public class GrupoUsuario implements Salvavel {
 
+public class GrupoUsuario implements Serializable, Salvavel, Carregavel {
+
+    private static final long serialVersionUID = 1L;
     private int id;
     private Grupo grupo;
     private Usuario usuario;
@@ -25,6 +30,18 @@ public class GrupoUsuario implements Salvavel {
             out.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void carregarParaArquivo() {
+        try{
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("grupousuario.txt"));
+            out.writeObject(this);
+            out.flush();
+        } catch (IOException excepction){
+            excepction.printStackTrace();
         }
     }
 

@@ -1,4 +1,6 @@
-public class CaronaCaronante {
+import java.io.Serializable;
+
+public class CaronaCaronante implements Serializable {
 
     private Caronante caronante;
     private Carona carona;

@@ -1,7 +1,10 @@
+import java.io.ObjectOutputStream;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+
 
 public class GrupoPrivado extends Grupo {
 
@@ -22,6 +25,18 @@ public class GrupoPrivado extends Grupo {
             out.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void carregarParaArquivo() {
+        try{
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("GrupoPrivado.txt"));
+            out.writeObject(this);
+            out.flush();
+        } catch (IOException excepction){
+            excepction.printStackTrace();
         }
     }
 

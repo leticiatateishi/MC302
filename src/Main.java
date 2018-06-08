@@ -1,4 +1,34 @@
-/*
+/*  PARTE 1 - Sobre interfaces e classes abstratas.
+ *
+ *  1 - Uma interface não pode implementar uma classe (abstrata ou não), mas apenas outras interfaces. Porém, o
+ *  oposto é válido e uma classe abstrata pode sim implementar uma interface. Um exemplo que comprova isso é o
+ *  fato da classe abstrata Grupo implementar a interface Salvavel.
+ *
+ *  2 - Uma classe abstrata pode possuir métodos e atributos privados; enquanto interfaces possuem apenas atributos
+ *  públicos, static e final, e métodos públicos. Classes abstratas podem possuir métodos não abstratos, que
+ *  possuem implementação; enquanto inferfaces devem conter apenas assinaturas de métodos. Classes abstratas
+ *  podem herdar de apenas uma outra classe abstrata e diversas interfaces; enquanto uma interface não pode
+ *  herdar de uma classe, mas sim de outras interfaces.
+ *
+ *  3 - Ao implementarmos duas interfaces que possuem um método com o mesmo nome e a mesma assinatura, o compilador
+ *  tratará os dois métodos como se fossem apenas um (de uma classe ou de outra), não ocorrerá erro de compilação.
+ *
+ *  4 - Podemos implementar métodos estáticos e default em interfaces.
+ *
+ *
+ *  PARTE 2 - Sobre arquivos e exceções.
+ *
+ *  1 - A leitura com um objeto de uma subclasse de InputStream (pois esta classe é abstrata) é feita byte a byte
+ *  e é custosa. Já leitura com um objeto BufferedInputStream possui um buffer array que permite que a leitura
+ *  de bytes seja mais efetiva.
+ *
+ *  2 - Uma IOExcepcion é jogada por alguns métodos de escrita para que um erro inesperado não cause o fim do
+ *  programa, desde que haja um tratamento dessa exceção. Faz sentido jogar essa exceção quando não conseguimos
+ *  escrever em um arquivo, por exemplo.
+ *
+ *  3 - A interface Serializable permite o armazenamento de um objeto e seus atributos (inclusive de tipos não
+ *  primitivos) na memória, para que possamos reconstruí-lo quando quisermos (inclusive os relacionamentos
+ *  entre os objetos não transient).
  */
 
 
@@ -128,9 +158,13 @@ public class Main {
 
         /*  Os usuarios 2, 3 e 4 se adicionam no grupo público gpu. */
 
-        usuario2.adicionarGrupo(gpu);
-        usuario3.adicionarGrupo(gpu);
-        usuario4.adicionarGrupo(gpu);
+        try {
+            usuario2.adicionarGrupo(gpu);
+            usuario3.adicionarGrupo(gpu);
+            usuario4.adicionarGrupo(gpu);
+        } catch (GrupoInexistente excecao) {
+            excecao.getMessage();
+        }
 
         System.out.println(gpu);
 
@@ -221,6 +255,16 @@ public class Main {
         scanner = new Scanner(s).useDelimiter(",");
         while (scanner.hasNext())
             System.out.println(scanner.next());
+
+
+        System.out.println("\n\n******************************\n");
+        System.out.println("Imprimindo todas as instancias para mostrar o estado do sistema:\n");
+        System.out.println(usuarios);
+        System.out.println(gpu);
+        System.out.println(ec017);
+        System.out.println(caronaPrivada);
+        System.out.println(caronaPrivada2);
+        System.out.println(caronaPublica);
 
 
         /*  Salvavamos no arquivo 'Usuarios.txt' informações a respeito dos cinco usuários, seus respectivos

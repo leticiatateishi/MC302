@@ -1,10 +1,14 @@
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-public class Usuario implements Salvavel {
+public class Usuario implements Serializable, Salvavel, Carregavel {
 
+    private static final long serialVersionUID = 1L;
     private int id;
     private String nome;
     private String email;
@@ -40,12 +44,26 @@ public class Usuario implements Salvavel {
     }
 
 
+    @Override
+    public void carregarParaArquivo() {
+        try{
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Usuario.txt"));
+            out.writeObject(this);
+            out.flush();
+        } catch (IOException excepction){
+            excepction.printStackTrace();
+        }
+    }
+
+
     /*  Adiciona o usuário a um grupo público. */
 
-    public void adicionarGrupo(GrupoPublico grupo) {
-        GrupoUsuario gu = new GrupoUsuario(grupo, this);
-        grupos.add(gu);
-        grupo.adicionarMembro(gu);
+    public void adicionarGrupo(GrupoPublico grupo) throws GrupoInexistente {
+        if (grupo != null) {
+            GrupoUsuario gu = new GrupoUsuario(grupo, this);
+            grupos.add(gu);
+            grupo.adicionarMembro(gu);
+        } else throw new GrupoInexistente();
     }
 
 
@@ -60,15 +78,13 @@ public class Usuario implements Salvavel {
     /*  Adiciona um usuário a um grupo privado apenas se o usuário que fizer a inserção (this) for o dono do
      *  grupo privado. */
 
-    public boolean adicionarUsuarioAUmGrupo(Usuario usuario, GrupoPrivado grupo) throws InsercaoEmGrupoPrivado {
-
-        if (grupo.checarPresencaUsuario(usuario)) return false;
+    public void adicionarUsuarioAUmGrupo(Usuario usuario, GrupoPrivado grupo) throws InsercaoEmGrupoPrivado {
 
         if (grupo.getDono() == this) {
             GrupoUsuario grupoUsuario = new GrupoUsuario(grupo, usuario);
             grupo.adicionarMembro(grupoUsuario);
             usuario.adicionarGrupoPrivado(grupoUsuario);
-            return true;
+            return;
         }
         throw new InsercaoEmGrupoPrivado();
     }

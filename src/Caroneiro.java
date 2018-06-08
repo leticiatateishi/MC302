@@ -1,10 +1,15 @@
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-public class Caroneiro implements Salvavel {
 
+public class Caroneiro implements Serializable, Salvavel, Carregavel {
+
+    private static final long serialVersionUID = 1L;
     private String cartaoDeCredito;
     private boolean pagamentoEmDinheiro;
     private Perfil perfil;
@@ -37,6 +42,18 @@ public class Caroneiro implements Salvavel {
             out.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void carregarParaArquivo() {
+        try{
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Caroneiros.txt"));
+            out.writeObject(this);
+            out.flush();
+        } catch (IOException excepction){
+            excepction.printStackTrace();
         }
     }
 

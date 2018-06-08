@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Carona {
+public abstract class Carona implements Serializable {
 
     protected ArrayList<CaronaCaroneiro> caroneiros;
     private final CaronaCaronante caronante;
@@ -41,7 +42,7 @@ public abstract class Carona {
     }
 
 
-    /*  Tenta remover determinada forma de pagamento. /
+    /*  Tenta remover determinada forma de pagamento. */
 
     public boolean removerFormaPagamento(MetodoPagamento mp) {
         return formaPagAceitas.remove(mp);
@@ -122,11 +123,13 @@ public abstract class Carona {
 
     public String toString() {
         String out = "Dados da carona:\n";
+        out += "Caronante: " + getCaronante().getCaronante().getPerfil().getUsuario().getNome() + "\n";
         out += "Latitude de encontro: " + getLatitudeEncontro() + "\n";
         out += "Longitude de encontro: " + getLongitudeEncontro() + "\n";
         out += "Latitude do destino: " + getLatitudeDestino() + "\n";
         out += "Longitude do destino: " + getLongitudeDestino() + "\n";
         out += "Hora e dia do encontro: " + getHoraDiaEncontro() + "\n";
+        out += "Valor: " + getValor() + "\n";
         return out;
     }
 

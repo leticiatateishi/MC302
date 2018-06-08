@@ -1,10 +1,15 @@
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-public class Caronante implements Salvavel {
 
+public class Caronante implements Serializable, Salvavel, Carregavel {
+
+    private static final long serialVersionUID = 1L;
     private int tempoHabilitacao;
     private String generoMusicalFavorito;
     private String placaVeiculo;
@@ -39,6 +44,18 @@ public class Caronante implements Salvavel {
             out.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void carregarParaArquivo() {
+        try{
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Caronante.txt"));
+            out.writeObject(this);
+            out.flush();
+        } catch (IOException excepction){
+            excepction.printStackTrace();
         }
     }
 
