@@ -2,7 +2,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class GrupoUsuario implements Salvavel{
+public class GrupoUsuario implements Salvavel {
 
     private int id;
     private Grupo grupo;
@@ -11,9 +11,11 @@ public class GrupoUsuario implements Salvavel{
 
     public GrupoUsuario(Grupo grupo, Usuario usuario) {
         geradorId++;
+        id = geradorId;
         this.grupo = grupo;
         this.usuario = usuario;
     }
+
 
     @Override
     public void salvarParaArquivo() {
@@ -27,12 +29,17 @@ public class GrupoUsuario implements Salvavel{
     }
 
 
-    public String toString(){
-        String out = "** Dados do GrupoUsuario " +getId() + "**\n";
-        out += "Grupo: " + getGrupo().getNome() + " (" +getGrupo().getId()+ ")\n";
-        out += "Usuario: " + getUsuario().getNome() + " (" +getUsuario().getId()+ ")\n";
+    /*  Imprime os dados do GrupoUsuario. */
+
+    public String toString() {
+        String out = "GrupoUsuario " + getId() + ":  ";
+        out += "Grupo " + getGrupo().getNome() + " (" + getGrupo().getId() + "); ";
+        out += "Usuario: " + getUsuario().getNome() + " (" + getUsuario().getId() + ")";
         return out;
     }
+
+
+    /*  Métodos de acesso dos atributos. */
 
     public int getId() {
         return id;

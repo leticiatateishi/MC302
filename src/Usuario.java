@@ -1,4 +1,6 @@
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Usuario implements Salvavel {
@@ -35,27 +37,6 @@ public class Usuario implements Salvavel {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-//        try{
-//            BufferedReader in = new BufferedReader(new FileReader("Usuarios.txt"));
-//            System.out.println(in.readLine());
-//        }catch (IOException ex){
-//            ex.printStackTrace();
-//        }
-//        try{
-//            DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("Usuarios.txt")));
-//            try {
-//                DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream("Usuarios.txt")));
-//                out.writeInt(23);
-//                System.out.println("int = " + in.readInt());
-//                out.flush();
-//            }
-//            catch (IOException ex){
-//                ex.printStackTrace();
-//            }
-//        }
-//        catch (IOException exception){
-//            exception.printStackTrace();
-//        }
     }
 
 
@@ -68,13 +49,21 @@ public class Usuario implements Salvavel {
     }
 
 
+    /*  Adiciona um GrupoUsuario a um grupo privado. Esse método é apenas auxiliar ao método adicionarUsuarioAUmGrupo
+     *  e NÃO deve ser chamado diretamente. */
+
     public void adicionarGrupoPrivado(GrupoUsuario grupoUsuario) {
         grupos.add(grupoUsuario);
     }
 
 
+    /*  Adiciona um usuário a um grupo privado apenas se o usuário que fizer a inserção (this) for o dono do
+     *  grupo privado. */
+
     public boolean adicionarUsuarioAUmGrupo(Usuario usuario, GrupoPrivado grupo) throws InsercaoEmGrupoPrivado {
+
         if (grupo.checarPresencaUsuario(usuario)) return false;
+
         if (grupo.getDono() == this) {
             GrupoUsuario grupoUsuario = new GrupoUsuario(grupo, usuario);
             grupo.adicionarMembro(grupoUsuario);
@@ -85,9 +74,10 @@ public class Usuario implements Salvavel {
     }
 
 
-    /*  Verifica se o usuário pertence a determinado grupo e o remove. */
+    /*  Verifica se o usuário pertence a determinado grupo porém não é o dono, e o remove. */
 
     public boolean removerGrupo(Grupo grupo) throws UsuarioNaoPertenceAoGrupo {
+
         for (GrupoUsuario i : grupos) {
             if (i.getGrupo() == grupo && i.getGrupo().getDono() != this) {
                 i.getGrupo().removerMembro(this);
@@ -99,9 +89,10 @@ public class Usuario implements Salvavel {
     }
 
 
-    /*  Verifica se o usuário pertence a determinado grupo e o remove. */
+    /*  Verifica se o usuário pertence a determinado grupo porém não é o dono, e o remove. */
 
     public boolean removerGrupo(int idGrupo) throws UsuarioNaoPertenceAoGrupo {
+
         for (GrupoUsuario i : grupos) {
             if (i.getGrupo().getId() == idGrupo && !(i.getGrupo().getDono() == this)) {
                 i.getGrupo().removerMembro(this);
@@ -129,23 +120,8 @@ public class Usuario implements Salvavel {
 
     public void atualizarGrupo(Usuario dono, int idGrupo, String descricao) {
         for (GrupoUsuario i : grupos) {
-            if (i.getGrupo().getId() == idGrupo && this == dono) {
-                i.getGrupo().setDescricao(descricao);
-            }
+            if (i.getGrupo().getId() == idGrupo && this == dono) i.getGrupo().setDescricao(descricao);
         }
-    }
-
-
-
-    /*  Retorna um grupo do qual o usuário faz parte. */
-
-    public Grupo getGrupo(int idGrupo) {
-        for (GrupoUsuario i : grupos) {
-            if (i.getGrupo().getId() == idGrupo) {
-                return i.getGrupo();
-            }
-        }
-        return null;
     }
 
 
@@ -170,7 +146,7 @@ public class Usuario implements Salvavel {
     /*  Imprime os dados do usuário. */
 
     public String toString() {
-        String out = "** Dados do usuário " +id + "**\n";
+        String out = "** Dados do usuário " + id + "**\n";
         out += "Nome: " + getNome() + " (" + getId() + ")\n";
         out += "Email: " + getEmail() + "\n";
         out += "Senha: " + getSenha() + "\n";

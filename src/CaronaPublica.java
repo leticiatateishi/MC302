@@ -5,8 +5,6 @@ public class CaronaPublica extends Carona {
     private ArrayList<GrupoPublico> grupos = new ArrayList<>();
 
 
-    /*  Construtor semelhantes a classe Carona.  */
-
     public CaronaPublica(Caronante caronante) {
         super(caronante);
     }

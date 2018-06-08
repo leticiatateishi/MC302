@@ -3,7 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Caroneiro implements Salvavel{
+public class Caroneiro implements Salvavel {
 
     private String cartaoDeCredito;
     private boolean pagamentoEmDinheiro;
@@ -30,7 +30,7 @@ public class Caroneiro implements Salvavel{
 
 
     @Override
-    public void salvarParaArquivo(){
+    public void salvarParaArquivo() {
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter("Usuarios.txt", true));
             out.write("" + this + "\n***********************************\n\n\n");
@@ -52,9 +52,7 @@ public class Caroneiro implements Salvavel{
 
     public void removerCarona(CaronaCaroneiro c) {
         for (CaronaCaroneiro i : caronas) {
-            if (i == c) {
-                caronas.remove(i);
-            }
+            if (i == c) caronas.remove(i);
         }
     }
 
@@ -66,22 +64,10 @@ public class Caroneiro implements Salvavel{
     }
 
 
-    /*  Retorna a avaliação do caroneiro em determinada carona. */
-
-    public float getAvalicao(Carona carona) {
-        for (CaronaCaroneiro i : caronas) {
-            if (i.getCarona() == carona) {
-                return i.getAvaliacao();
-            }
-        }
-        return 0.0f;
-    }
-
-
     /*  Imprime os dados do caroneiro. */
 
     public String toString() {
-        String out = "** Dados do caroneiro " +this.getPerfil().getUsuario().getId() + "**\n";
+        String out = "** Dados do caroneiro " + this.getPerfil().getUsuario().getId() + "**\n";
         out += "Cartao de credito: " + getCartaoDeCredito() + "\n";
         out += "Pagamento em dinheiro: " + getPagamentoEmDinheiro() + "\n\n";
         return out;

@@ -7,6 +7,7 @@ public class GrupoPublico extends Grupo {
 
     private ArrayList<CaronaPublica> caronas;
 
+
     public GrupoPublico(String n, String d, Usuario u) {
         super(n, d, u);
         caronas = new ArrayList<>();
@@ -43,7 +44,7 @@ public class GrupoPublico extends Grupo {
     }
 
 
-    public void adicionarCarona(CaronaPublica carona){
+    public void adicionarCarona(CaronaPublica carona) {
         caronas.add(carona);
     }
 

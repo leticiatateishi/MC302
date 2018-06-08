@@ -13,7 +13,7 @@ public class CaronaPrivada extends Carona {
     /*  Verifica se o caronante da carona pertence ao grupo e, se possível, adiciona um grupo privado ao arraylist
      *  de grupos desta carona. */
 
-    public boolean adicionarGrupo(GrupoPrivado grupo){
+    public boolean adicionarGrupo(GrupoPrivado grupo) {
 
         if (grupo.checarPresencaUsuario(getCaronante().getCaronante().getPerfil().getUsuario())) {
             grupos.add(grupo);
@@ -26,7 +26,7 @@ public class CaronaPrivada extends Carona {
 
 
     /*  Verifica se há espaço para adição de um novo caroneiro e, se houver, verifica se o caroneiro participa de
-    *   algum grupo privado desta carona antes de inseri-lo. */
+     *   algum grupo privado desta carona antes de inseri-lo. */
 
     public boolean adicionarCaroneiro(Caroneiro caroneiro) {
 

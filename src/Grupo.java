@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 
-public abstract class Grupo implements Salvavel{
+public abstract class Grupo implements Salvavel {
 
     private int id;
     private String nome;
     private String descricao;
-    protected ArrayList<GrupoUsuario> membros;
     private Usuario dono;
+    protected ArrayList<GrupoUsuario> membros;
     private static int geradorId = 0;
+
 
     public Grupo() {
         geradorId++;
@@ -35,9 +36,9 @@ public abstract class Grupo implements Salvavel{
 
     /*  Verifica se determinado usuário está no grupo. */
 
-    public boolean checarPresencaUsuario(Usuario usuario){
-        for (GrupoUsuario i: membros)
-            if(i.getUsuario() == usuario) return true;
+    public boolean checarPresencaUsuario(Usuario usuario) {
+        for (GrupoUsuario i : membros)
+            if (i.getUsuario() == usuario) return true;
         return false;
     }
 
@@ -61,7 +62,7 @@ public abstract class Grupo implements Salvavel{
         out += "Nome do dono: " + getDono().getNome() + "\n";
         out += "Membros do grupo:\n";
         for (GrupoUsuario i : membros) {
-            out += "\t" + i.getUsuario().getNome() + "\n";
+            out += "\t" + i + "\n";
         }
         return out;
     }

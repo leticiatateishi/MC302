@@ -10,8 +10,8 @@ public class Perfil implements Comparable<Perfil>, Salvavel {
     private String estado;
     private String telefone;
     private boolean fumante;
-    private float somaAvaliacoes=0;
-    private int quantidadeAvaliacoes=0;
+    private float somaAvaliacoes = 0;
+    private int quantidadeAvaliacoes = 0;
     private Caroneiro caroneiro;
     private Caronante caronante;
     private Usuario usuario;
@@ -28,7 +28,7 @@ public class Perfil implements Comparable<Perfil>, Salvavel {
 
 
     @Override
-    public void salvarParaArquivo(){
+    public void salvarParaArquivo() {
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter("Usuarios.txt", true));
             out.write("" + this);
@@ -42,7 +42,7 @@ public class Perfil implements Comparable<Perfil>, Salvavel {
     /*  Imprime os dados do perfil. */
 
     public String toString() {
-        String out = "** Dados do perfil " +this.getUsuario().getId() + "**\n";
+        String out = "** Dados do perfil " + this.getUsuario().getId() + "**\n";
         out += "Sexo: " + getSexo() + "\n";
         out += "Data de nascimento: " + getDataNascimento() + "\n";
         out += "Cidade: " + getCidade() + "\n";
@@ -54,7 +54,9 @@ public class Perfil implements Comparable<Perfil>, Salvavel {
     }
 
 
-    public int compareTo(Perfil perfil){
+    /*  Compara dois perfis usando suas avaliações como critério. */
+
+    public int compareTo(Perfil perfil) {
         if (this.getAvaliacao() > perfil.getAvaliacao()) return 1;
         if (this.getAvaliacao() == perfil.getAvaliacao()) return 0;
         else return -1;
@@ -113,7 +115,7 @@ public class Perfil implements Comparable<Perfil>, Salvavel {
 
     public float getAvaliacao() {
         if (quantidadeAvaliacoes == 0) return 0;
-        return somaAvaliacoes/quantidadeAvaliacoes;
+        return somaAvaliacoes / quantidadeAvaliacoes;
     }
 
     public void setAvaliacao(float avaliacao) {

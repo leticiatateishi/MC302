@@ -1,18 +1,16 @@
-
 /*
-*/
+ */
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        /* Criando cinco usuarios */
+        /* Criando cinco usuarios e seus respectivos perfis. */
 
         Perfil perfil0 = new Perfil('f', "28/09/1990", "Sao Paulo", "Sao Paulo", "2723-5782", false);
         Usuario usuario0 = new Usuario("Leticia", "leticia@gmail.com", "a1b2c3d4", true, perfil0);         // id = 1
@@ -53,7 +51,6 @@ public class Main {
         perfil4.setCaronante(caronante4);
 
 
-
         /*  Tornando todos os usuários caroneiros. */
 
         Caroneiro caroneiro0 = new Caroneiro("10391");
@@ -77,7 +74,7 @@ public class Main {
         caroneiro4.setPerfil(perfil4);
 
 
-        /*  Criação de um arraylist de usuários. */
+        /*  Criando de um arraylist de usuários. */
 
         ArrayList<Usuario> usuarios = new ArrayList<>();
         usuarios.add(usuario0);
@@ -99,14 +96,12 @@ public class Main {
 
 
         /*  Tenta inserir dois novos membros ao grupo privado EC017. Ambas as inserções devem ocorrer corretamente,
-         *  uma vez que o usuário que está realizando a inserção é o dono do grupo.
-         */
+         *  uma vez que o usuário que está realizando a inserção é o dono do grupo. */
 
         try {
             usuario0.adicionarUsuarioAUmGrupo(usuario1, ec017);
             usuario0.adicionarUsuarioAUmGrupo(usuario2, ec017);
-        }
-        catch (InsercaoEmGrupoPrivado i){
+        } catch (InsercaoEmGrupoPrivado i) {
             System.out.println(i.getMessage());
         }
 
@@ -117,13 +112,11 @@ public class Main {
 
 
         /*  O usuário2, que não é dono do grupo EC017, tenta inserir outro usuário no grupo privado. O programa
-         *   deve gerar uma exceção e lidar com ele através de uma mensagem de erro.
-         */
+         *   deve gerar uma exceção e lidar com ela através de uma mensagem de erro. */
 
-        try{
+        try {
             usuario2.adicionarUsuarioAUmGrupo(usuario4, ec017);
-        }
-        catch (InsercaoEmGrupoPrivado i){
+        } catch (InsercaoEmGrupoPrivado i) {
             System.out.println(i.getMessage());
         }
 
@@ -142,27 +135,24 @@ public class Main {
         System.out.println(gpu);
 
 
-        /*  O usuário3 cria uma carona pública e adiciona o grupo público gpu a esta carona. */
+        /*  O usuário3 cria uma carona pública e adiciona o grupo público 'gpu' a esta carona. */
 
         CaronaPublica caronaPublica = caronante3.oferecerCaronaPublica();
         caronaPublica.adicionarGrupo(gpu);
 
 
         /*  O usuario0 tenta se retirar do grupo público. A remoção não deve ocorrer pois usuario0 é o dono do
-         *  grupo. A exceção deve apresentar uma mensagem de erro.
-         */
+         *  grupo. A exceção deve apresentar uma mensagem de erro. */
 
         try {
             System.out.println("Tentativa de retirar usuario0 do grupo público gpu: " + usuario0.removerGrupo(gpu));
-        }
-        catch (UsuarioNaoPertenceAoGrupo u){
+        } catch (UsuarioNaoPertenceAoGrupo u) {
             System.out.println(u.getMessage());
         }
 
 
         /*  O usuario2 cria uma carona privada e adiciona o grupo privado EC017 na carona. Deve ocorrer corretamente,
-         *  pois o usuário2 pertence ao grupo privado inserido e tem permissão para fazer a inserção.
-         */
+         *  pois o usuário2 pertence ao grupo privado inserido e tem permissão para fazer a inserção. */
 
         CaronaPrivada caronaPrivada = caronante2.oferecerCaronaPrivada();
         caronaPrivada.adicionarGrupo(ec017);
@@ -170,33 +160,47 @@ public class Main {
 
         /*  O usuario4 cria uma carona privada e tenta adicionar o grupo privado EC017 na carona. O programa deve
          *  gerar uma mensagem de exceção, pois o usuário não pertence ao grupo privado e, portanto, não possui
-         *  permissão para fazer essa inserção.
-         */
+         *  permissão para fazer essa inserção. */
 
         CaronaPrivada caronaPrivada2 = caronante4.oferecerCaronaPrivada();
         caronaPrivada2.adicionarGrupo(ec017);
 
 
-        System.out.println("\nInserção do usuário0 na carona: " +caroneiro0.pedirCarona(caronaPrivada));
-        System.out.println("Inserção do usuário1 na carona: " +caroneiro1.pedirCarona(caronaPrivada));
-        System.out.println("Inserção do usuário3 na carona: " +caroneiro3.pedirCarona(caronaPrivada) + "\n");
+        /*  Os caroneiros 0, 1 e 3 pedem a carona privada oferecida pelo caronante 2. As duas primeiras inserções
+         *  devem ocorrer corretamente pois os usuarios 0 e 1 pertencem ao grupo privado 'ec017'. A terceira
+         *  inserção não deve ocorrer pois o usuário 3 não pertence a algum grupo privado da carona. */
 
+        System.out.println("\nInserção do usuário0 na carona: " + caroneiro0.pedirCarona(caronaPrivada));
+        System.out.println("Inserção do usuário1 na carona: " + caroneiro1.pedirCarona(caronaPrivada));
+        System.out.println("Inserção do usuário3 na carona: " + caroneiro3.pedirCarona(caronaPrivada) + "\n");
+
+
+        /*  Criando um array list com os perfis dos usuários 0, 1 e 2, que participaram da caronaPrivada. */
 
         ArrayList<Perfil> perfis = new ArrayList<>();
         perfis.add(perfil0);
         perfis.add(perfil1);
         perfis.add(perfil2);
 
+
+        /*  Atribuímos notas do caronante e dos caroneiros à caronaPrivada gerada. */
+
         caronaPrivada.atribuirNotaCaronante(6.7f);
         caronaPrivada.atribuirNotaCaroneiro(0, 8.4f);
         caronaPrivada.atribuirNotaCaroneiro(1, 5.1f);
+
+
+        /*  Ordenamos o ArrayList de perfis em ordem crescente de avaliação. */
 
         Collections.sort(perfis);
 
 
         /*  Imprimindo os cinco usuários criados. */
 
-        System.out.println(usuarios);
+        String s = usuarios.toString();
+        Scanner scanner = new Scanner(s).useDelimiter(",");
+        while (scanner.hasNext())
+            System.out.println(scanner.next());
 
 
         /*  Imprimimos os dois grupos criados. */
@@ -211,19 +215,30 @@ public class Main {
         System.out.println("Imprimindo a segunda carona\n" + caronaPrivada2 + "\n");
 
 
-        System.out.println(perfis);
+        /*  Imprimindo os três perfis que participaram da caronaPrivada. */
+
+        s = perfis.toString();
+        scanner = new Scanner(s).useDelimiter(",");
+        while (scanner.hasNext())
+            System.out.println(scanner.next());
 
 
-        for (Usuario usuario: usuarios){
+        /*  Salvavamos no arquivo 'Usuarios.txt' informações a respeito dos cinco usuários, seus respectivos
+         *  perfis, caronantes e caroneiros. */
+
+        for (Usuario usuario : usuarios) {
             usuario.salvarParaArquivo();
             usuario.getPerfil().salvarParaArquivo();
             usuario.getPerfil().getCaronante().salvarParaArquivo();
             usuario.getPerfil().getCaroneiro().salvarParaArquivo();
         }
 
+
+        /*  Salvamos no arquivo 'Grupos.txt' informações a respeito dos grupos (privados ou públicos) e dos
+         *  GrupoUsuario's. */
+
         gpu.salvarParaArquivo();
         ec017.salvarParaArquivo();
-
 
     }
 }

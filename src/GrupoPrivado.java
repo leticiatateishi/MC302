@@ -7,10 +7,12 @@ public class GrupoPrivado extends Grupo {
 
     private ArrayList<CaronaPrivada> caronas;
 
+
     public GrupoPrivado(String n, String d, Usuario u) {
         super(n, d, u);
         caronas = new ArrayList<>();
     }
+
 
     @Override
     public void salvarParaArquivo() {
@@ -22,6 +24,7 @@ public class GrupoPrivado extends Grupo {
             ex.printStackTrace();
         }
     }
+
 
     /*  Adiciona um novo membro ao grupo. */
 
@@ -41,7 +44,7 @@ public class GrupoPrivado extends Grupo {
     }
 
 
-    public void adicionarCarona(CaronaPrivada carona){
+    public void adicionarCarona(CaronaPrivada carona) {
         caronas.add(carona);
     }
 }
