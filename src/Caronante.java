@@ -154,4 +154,11 @@ public class Caronante implements Serializable, Salvavel, Carregavel {
     public void setPerfil(Perfil p) {
         perfil = p;
     }
+
+    public String getCaronas(){
+        String out = "";
+        for (CaronaCaronante i: caronas)
+            out += i.getCarona();
+        return out;
+    }
 }

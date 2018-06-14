@@ -229,4 +229,8 @@ public class Usuario implements Serializable, Salvavel, Carregavel {
         }
     }
 
+    public String getCaronas(){
+        return getPerfil().getCaronante().getCaronas() + getPerfil().getCaroneiro().getCaronas();
+    }
+
 }

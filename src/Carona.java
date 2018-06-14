@@ -129,7 +129,7 @@ public abstract class Carona implements Serializable {
         out += "Latitude do destino: " + getLatitudeDestino() + "\n";
         out += "Longitude do destino: " + getLongitudeDestino() + "\n";
         out += "Hora e dia do encontro: " + getHoraDiaEncontro() + "\n";
-        out += "Valor: " + getValor() + "\n";
+        out += "Valor: " + getValor() + "\n\n";
         return out;
     }
 
