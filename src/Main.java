@@ -32,6 +32,7 @@
  */
 
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -284,5 +285,7 @@ public class Main {
         gpu.salvarParaArquivo();
         ec017.salvarParaArquivo();
 
+
+        JFrame frame = new Janela(usuario0);
     }
 }
