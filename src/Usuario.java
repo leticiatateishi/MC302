@@ -120,6 +120,18 @@ public class Usuario implements Serializable, Salvavel, Carregavel {
     }
 
 
+    public boolean removerGrupo(String nome) throws UsuarioNaoPertenceAoGrupo {
+        for (GrupoUsuario i : grupos) {
+            if (i.getGrupo().getNome() == nome && !(i.getGrupo().getDono() == this)) {
+                i.getGrupo().removerMembro(this);
+                grupos.remove(i);
+                return true;
+            }
+        }
+        throw new UsuarioNaoPertenceAoGrupo();
+    }
+
+
     /*  Verifica se o usuário é dono do grupo e atualiza o nome e a descrição do grupo. */
 
     public void atualizarGrupo(Usuario dono, int idGrupo, String nome, String descricao) {
@@ -231,6 +243,16 @@ public class Usuario implements Serializable, Salvavel, Carregavel {
 
     public String getCaronas(){
         return getPerfil().getCaronante().getCaronas() + getPerfil().getCaroneiro().getCaronas();
+    }
+
+    public String[] getNomesGrupos(){
+        String[] nomes = new String[10];
+        int count = 0;
+        for(GrupoUsuario i: grupos){
+            nomes[count] = i.getGrupo().getNome();
+            count ++;
+        }
+        return nomes;
     }
 
 }
