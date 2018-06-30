@@ -1,41 +1,39 @@
-/*  PARTE 1 - Sobre interfaces e classes abstratas.
+/*  Questão 1
+ *  AWT é um conjunto mais simples de componentes, que pode ter comportamentos distintos em ambientes
+ *  distintos e cuja plataforma controla a aparência dos componentes. Enquanto Swing possui componentes
+ *  mais elaborados e é consistente em diferentes plataformas.
  *
- *  1 - Uma interface não pode implementar uma classe (abstrata ou não), mas apenas outras interfaces. Porém, o
- *  oposto é válido e uma classe abstrata pode sim implementar uma interface. Um exemplo que comprova isso é o
- *  fato da classe abstrata Grupo implementar a interface Salvavel.
+ *  Questão 2
+ *  Um container possui diversos layers, sendo o content pane o layer usado para "segurar" outros componentes.
  *
- *  2 - Uma classe abstrata pode possuir métodos e atributos privados; enquanto interfaces possuem apenas atributos
- *  públicos, static e final, e métodos públicos. Classes abstratas podem possuir métodos não abstratos, que
- *  possuem implementação; enquanto inferfaces devem conter apenas assinaturas de métodos. Classes abstratas
- *  podem herdar de apenas uma outra classe abstrata e diversas interfaces; enquanto uma interface não pode
- *  herdar de uma classe, mas sim de outras interfaces.
+ *  Questão 3
+ *  Quando um JDialog visível, não temos acesso às outras janelas do programa até que ele seja fechado.
  *
- *  3 - Ao implementarmos duas interfaces que possuem um método com o mesmo nome e a mesma assinatura, o compilador
- *  tratará os dois métodos como se fossem apenas um (de uma classe ou de outra), não ocorrerá erro de compilação.
+ *  Questão 4
+ *  O BorderLayout possui 5 áreas disponíveis: Norte, Sul, Leste, Oeste e Centro. O BoxLayout distribui os
+ *  componentes em uma só coluna, um debaixo do outro. O FlowLayout distribui os componentes na horizontal,
+ *  um do lado do outro. O GridLayout coloca os componentes em uma "tabela", distribuindo na horizontal E
+ *  na vertical.
+ *  Neste laboratório, utilizei majoritariamente BoxLayout e FlowLayout, por ser comum a necessidade de
+ *  posicionar componentes em uma mesma linha ou em uma mesma coluna.
  *
- *  4 - Podemos implementar métodos estáticos e default em interfaces.
+ *  Questão 5
+ *  Um função callback é chamada quando um evento ocorre. Em Java, são implementadas através de um método
+ *  em um objeto (chamado de listener). Esse método recebe como parâmetro o evento ocorrido e realiza as
+ *  operações necessárias.
  *
+ *  Questão 6
+ *  O Model é representado pelas classes que representam usuários, grupos e caronas, como todos os atri-
+ *  butos e métodos nelas armazenados. O View é a interface gráfica, que permite que clientes tenham
+ *  acesso à visualização do estado do sistema. Controller são os botões e campos da interface gráfica,
+ *  que permitem que clientes possam interagir com o sistema.
  *
- *  PARTE 2 - Sobre arquivos e exceções.
- *
- *  1 - A leitura com um objeto de uma subclasse de InputStream (pois esta classe é abstrata) é feita byte a byte
- *  e é custosa. Já leitura com um objeto BufferedInputStream possui um buffer array que permite que a leitura
- *  de bytes seja mais efetiva.
- *
- *  2 - Uma IOExcepcion é jogada por alguns métodos de escrita para que um erro inesperado não cause o fim do
- *  programa, desde que haja um tratamento dessa exceção. Faz sentido jogar essa exceção quando não conseguimos
- *  escrever em um arquivo, por exemplo.
- *
- *  3 - A interface Serializable permite o armazenamento de um objeto e seus atributos (inclusive de tipos não
- *  primitivos) na memória, para que possamos reconstruí-lo quando quisermos (inclusive os relacionamentos
- *  entre os objetos não transient).
  */
 
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 
 public class Main {
 
@@ -52,12 +50,6 @@ public class Main {
         Perfil perfil2 = new Perfil('f', "07/09/1995", "Campinas", "Sao Paulo", "3821-9384", false);
         Usuario usuario2 = new Usuario("Isabela", "isabela@gmail.com", "isabela", true, perfil2);          // id = 3
 
-        Perfil perfil3 = new Perfil('m', "14/03/1993", "Campinas", "Sao Paulo", "4822-5879", false);
-        Usuario usuario3 = new Usuario("Fernando", "fernando@gmail.com", "1403", true, perfil3);           // id = 4
-
-        Perfil perfil4 = new Perfil('f', "23/01/1990", "Campinas", "Sao Paulo", "9993-6472", false);
-        Usuario usuario4 = new Usuario("Luisa", "luisa@gmail.com", "luisa123", true, perfil4);             // id = 5
-
 
         /*  Tornando todos os usuários caronantes. */
 
@@ -72,14 +64,6 @@ public class Main {
         Caronante caronante2 = new Caronante("HMN-1424", "11111111", "Volkswagen", "Fusca", 3);
         caronante2.setPerfil(perfil2);
         perfil2.setCaronante(caronante2);
-
-        Caronante caronante3 = new Caronante("RWD=3810", "222222222", "Honda", "Civic", 3);
-        caronante3.setPerfil(perfil3);
-        perfil3.setCaronante(caronante3);
-
-        Caronante caronante4 = new Caronante("WWB-0028", "333333333", "Volkswagen", "Fusca", 3);
-        caronante4.setPerfil(perfil4);
-        perfil4.setCaronante(caronante4);
 
 
         /*  Tornando todos os usuários caroneiros. */
@@ -96,14 +80,6 @@ public class Main {
         perfil2.setCaroneiro(caroneiro2);
         caroneiro2.setPerfil(perfil2);
 
-        Caroneiro caroneiro3 = new Caroneiro("57817");
-        perfil3.setCaroneiro(caroneiro3);
-        caroneiro3.setPerfil(perfil3);
-
-        Caroneiro caroneiro4 = new Caroneiro("57179");
-        perfil4.setCaroneiro(caroneiro4);
-        caroneiro4.setPerfil(perfil4);
-
 
         /*  Criando de um arraylist de usuários. */
 
@@ -111,19 +87,12 @@ public class Main {
         usuarios.add(usuario0);
         usuarios.add(usuario1);
         usuarios.add(usuario2);
-        usuarios.add(usuario3);
-        usuarios.add(usuario4);
 
 
         /*  Criando um grupo público 'gpu' e um grupo privado 'EC017', com o usuario0 como dono de ambos. */
 
         GrupoPublico gpu = usuario0.criarGrupoPublico("gpu", "Grupo público");
         GrupoPrivado ec017 = usuario0.criarGrupoPrivado("EC017", "Apenas para estudantes de EC com ingresso em 2017");
-
-
-        /*  Imprime o grupo privado EC017. */
-
-        System.out.println(ec017);
 
 
         /*  Tenta inserir dois novos membros ao grupo privado EC017. Ambas as inserções devem ocorrer corretamente,
@@ -137,43 +106,14 @@ public class Main {
         }
 
 
-        /*  Imprime o grupo privado EC017 após duas tentativas de inserção de novos membros. */
-
-        System.out.println(ec017);
-
-
-        /*  O usuário2, que não é dono do grupo EC017, tenta inserir outro usuário no grupo privado. O programa
-         *   deve gerar uma exceção e lidar com ela através de uma mensagem de erro. */
-
-        try {
-            usuario2.adicionarUsuarioAUmGrupo(usuario4, ec017);
-        } catch (InsercaoEmGrupoPrivado i) {
-            System.out.println(i.getMessage());
-        }
-
-
-        /*  Imprime o grupo privado EC017, que não deve ter sido alterado. */
-
-        System.out.println(ec017);
-
-
         /*  Os usuarios 2, 3 e 4 se adicionam no grupo público gpu. */
 
         try {
+            usuario1.adicionarGrupo(gpu);
             usuario2.adicionarGrupo(gpu);
-            usuario3.adicionarGrupo(gpu);
-            usuario4.adicionarGrupo(gpu);
         } catch (GrupoInexistente excecao) {
             excecao.getMessage();
         }
-
-        System.out.println(gpu);
-
-
-        /*  O usuário3 cria uma carona pública e adiciona o grupo público 'gpu' a esta carona. */
-
-        CaronaPublica caronaPublica = caronante3.oferecerCaronaPublica();
-        caronaPublica.adicionarGrupo(gpu);
 
 
         /*  O usuario0 tenta se retirar do grupo público. A remoção não deve ocorrer pois usuario0 é o dono do
@@ -191,14 +131,8 @@ public class Main {
 
         CaronaPrivada caronaPrivada = caronante2.oferecerCaronaPrivada();
         caronaPrivada.adicionarGrupo(ec017);
-
-
-        /*  O usuario4 cria uma carona privada e tenta adicionar o grupo privado EC017 na carona. O programa deve
-         *  gerar uma mensagem de exceção, pois o usuário não pertence ao grupo privado e, portanto, não possui
-         *  permissão para fazer essa inserção. */
-
-        CaronaPrivada caronaPrivada2 = caronante4.oferecerCaronaPrivada();
-        caronaPrivada2.adicionarGrupo(ec017);
+        caronaPrivada.setHoraDiaEncontro("09/04, às 10h");
+        caronaPrivada.setValor(10.0f);
 
 
         /*  Os caroneiros 0, 1 e 3 pedem a carona privada oferecida pelo caronante 2. As duas primeiras inserções
@@ -207,7 +141,6 @@ public class Main {
 
         System.out.println("\nInserção do usuário0 na carona: " + caroneiro0.pedirCarona(caronaPrivada));
         System.out.println("Inserção do usuário1 na carona: " + caroneiro1.pedirCarona(caronaPrivada));
-        System.out.println("Inserção do usuário3 na carona: " + caroneiro3.pedirCarona(caronaPrivada) + "\n");
 
 
         /*  Criando um array list com os perfis dos usuários 0, 1 e 2, que participaram da caronaPrivada. */
@@ -230,42 +163,13 @@ public class Main {
         Collections.sort(perfis);
 
 
-        /*  Imprimindo os cinco usuários criados. */
-
-        String s = usuarios.toString();
-        Scanner scanner = new Scanner(s).useDelimiter(",");
-        while (scanner.hasNext())
-            System.out.println(scanner.next());
-
-
-        /*  Imprimimos os dois grupos criados. */
-
-        System.out.println("\nImprimindo grupo público\n" + gpu + "\n");
-        System.out.println("Imprimindo grupo privado\n" + ec017 + "\n");
-
-
-        /*  Imprimindo as duas caronas criadas. */
-
-        System.out.println("Imprimindo a primeira carona\n" + caronaPrivada + "\n");
-        System.out.println("Imprimindo a segunda carona\n" + caronaPrivada2 + "\n");
-
-
-        /*  Imprimindo os três perfis que participaram da caronaPrivada. */
-
-        s = perfis.toString();
-        scanner = new Scanner(s).useDelimiter(",");
-        while (scanner.hasNext())
-            System.out.println(scanner.next());
-
-
         System.out.println("\n\n******************************\n");
         System.out.println("Imprimindo todas as instancias para mostrar o estado do sistema:\n");
         System.out.println(usuarios);
+        System.out.println(perfis);
         System.out.println(gpu);
         System.out.println(ec017);
         System.out.println(caronaPrivada);
-        System.out.println(caronaPrivada2);
-        System.out.println(caronaPublica);
 
 
         /*  Salvavamos no arquivo 'Usuarios.txt' informações a respeito dos cinco usuários, seus respectivos
@@ -276,6 +180,13 @@ public class Main {
             usuario.getPerfil().salvarParaArquivo();
             usuario.getPerfil().getCaronante().salvarParaArquivo();
             usuario.getPerfil().getCaroneiro().salvarParaArquivo();
+        }
+
+        GrupoPublico grupoSP = usuario1.criarGrupoPublico("SP", "Para moradores de SP");
+        try{
+            usuario0.adicionarGrupo(grupoSP);
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
 

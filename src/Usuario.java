@@ -1,3 +1,5 @@
+import com.sun.java.accessibility.util.GUIInitializedListener;
+
 import java.io.Serializable;
 import java.io.ObjectOutputStream;
 import java.io.BufferedWriter;
@@ -5,6 +7,8 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Usuario implements Serializable, Salvavel, Carregavel {
 
@@ -95,7 +99,7 @@ public class Usuario implements Serializable, Salvavel, Carregavel {
     public boolean removerGrupo(Grupo grupo) throws UsuarioNaoPertenceAoGrupo {
 
         for (GrupoUsuario i : grupos) {
-            if (i.getGrupo() == grupo && i.getGrupo().getDono() != this) {
+            if (i.getGrupo() == grupo && i.getGrupo().getDono().getId() != this.getId()) {
                 i.getGrupo().removerMembro(this);
                 grupos.remove(i);
                 return true;
@@ -110,7 +114,7 @@ public class Usuario implements Serializable, Salvavel, Carregavel {
     public boolean removerGrupo(int idGrupo) throws UsuarioNaoPertenceAoGrupo {
 
         for (GrupoUsuario i : grupos) {
-            if (i.getGrupo().getId() == idGrupo && !(i.getGrupo().getDono() == this)) {
+            if (i.getId() == idGrupo && i.getGrupo().getDono().getId() != this.getId()) {
                 i.getGrupo().removerMembro(this);
                 grupos.remove(i);
                 return true;
@@ -120,12 +124,12 @@ public class Usuario implements Serializable, Salvavel, Carregavel {
     }
 
 
-    public boolean removerGrupo(String nome) throws UsuarioNaoPertenceAoGrupo {
+    public void removerGrupo(String nome) throws UsuarioNaoPertenceAoGrupo {
         for (GrupoUsuario i : grupos) {
-            if (i.getGrupo().getNome() == nome && !(i.getGrupo().getDono() == this)) {
+            if (i.getGrupo().getNome().equals(nome) && i.getGrupo().getDono().getId() != this.getId()) {
                 i.getGrupo().removerMembro(this);
                 grupos.remove(i);
-                return true;
+                return;
             }
         }
         throw new UsuarioNaoPertenceAoGrupo();
@@ -241,16 +245,18 @@ public class Usuario implements Serializable, Salvavel, Carregavel {
         }
     }
 
-    public String getCaronas(){
-        return getPerfil().getCaronante().getCaronas() + getPerfil().getCaroneiro().getCaronas();
+//    public String getCaronas(){
+//        return getPerfil().getCaronante().getCaronas() + getPerfil().getCaroneiro().getCaronas();
+//    }
+
+    public List<GrupoUsuario> getGrupos(){
+        return Collections.unmodifiableList(grupos);
     }
 
-    public String[] getNomesGrupos(){
-        String[] nomes = new String[10];
-        int count = 0;
+    public ArrayList<String> getNomesGrupos(){
+        ArrayList<String> nomes = new ArrayList<>();
         for(GrupoUsuario i: grupos){
-            nomes[count] = i.getGrupo().getNome();
-            count ++;
+            nomes.add(i.getGrupo().getNome());
         }
         return nomes;
     }

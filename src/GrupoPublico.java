@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class GrupoPublico extends Grupo {
@@ -51,9 +52,10 @@ public class GrupoPublico extends Grupo {
     /*  Verifica se determinado usuário participa do grupo e o remove. */
 
     public void removerMembro(Usuario usuario) {
-        for (GrupoUsuario i : membros) {
+        for(Iterator<GrupoUsuario> iterator = membros.iterator(); iterator.hasNext(); ) {
+            GrupoUsuario i = iterator.next();
             if (i.getUsuario() == usuario) {
-                membros.remove(i);
+                iterator.remove();
             }
         }
     }

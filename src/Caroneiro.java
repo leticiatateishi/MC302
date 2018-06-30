@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class Caroneiro implements Serializable, Salvavel, Carregavel {
@@ -117,10 +119,7 @@ public class Caroneiro implements Serializable, Salvavel, Carregavel {
         perfil = p;
     }
 
-    public String getCaronas(){
-        String out = "";
-        for (CaronaCaroneiro i: caronas)
-            out += i.getCarona();
-        return out;
+    public List<CaronaCaroneiro> getCaronas(){
+        return Collections.unmodifiableList(caronas);
     }
 }
